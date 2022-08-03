@@ -43,9 +43,14 @@
             // 
             // NoteBookGallery
             // 
+            this.NoteBookGallery.AllowUserToAddRows = false;
+            this.NoteBookGallery.AllowUserToDeleteRows = false;
+            this.NoteBookGallery.AllowUserToResizeColumns = false;
+            this.NoteBookGallery.AllowUserToResizeRows = false;
             this.NoteBookGallery.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.NoteBookGallery.Location = new System.Drawing.Point(1031, 223);
             this.NoteBookGallery.Name = "NoteBookGallery";
+            this.NoteBookGallery.RowHeadersVisible = false;
             this.NoteBookGallery.RowHeadersWidth = 102;
             this.NoteBookGallery.RowTemplate.Height = 49;
             this.NoteBookGallery.Size = new System.Drawing.Size(483, 587);
@@ -101,7 +106,7 @@
             this.NewNoteBtn.TabIndex = 6;
             this.NewNoteBtn.Text = "New Notebook";
             this.NewNoteBtn.UseVisualStyleBackColor = true;
-            this.NewNoteBtn.Click += new System.EventHandler(this.button1_Click);
+            this.NewNoteBtn.Click += new System.EventHandler(this.NewNoteBtn_Click);
             // 
             // SaveNoteBtn
             // 

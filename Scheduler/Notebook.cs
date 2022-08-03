@@ -12,6 +12,19 @@ namespace Scheduler
 {
     public partial class Notebook : Form
     {
+        // TODO
+        // ADD SQL TABLE
+        // The table should act as the "Notes" 
+        // ---------- OnLoad
+        // on load, probe the SQL table and add all applicable contents to the 
+        // Notes
+        // ---------- Saving
+        // Send info to SQL
+        // ---------- Deleting
+        // Remove info from SQL
+        // ---------- Read
+        // Retrieve info from SQL
+
         DataTable Notes;
         public Notebook()
         {
@@ -24,7 +37,13 @@ namespace Scheduler
             Notes.Columns.Add("Title"   , typeof(String));
             Notes.Columns.Add("Messages", typeof(String));
 
-           NoteBookGallery.DataSource = Notes;
+            NoteBookGallery.DataSource = Notes;
+            NoteBookGallery.Columns["Messages"].Visible = false;
+            GetSQLInfo();
+        }
+
+        private void GetSQLInfo() 
+        { 
         }
 
         private void NewNoteBtn_Click(object sender, EventArgs e)
