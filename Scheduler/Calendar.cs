@@ -103,7 +103,7 @@ namespace Scheduler
             }
 
             // Display Month Info 
-            CalendarMonth.Text = $"{Months[_Month - 1]} {_Year}";
+            CalendarMonth.Text = $"{_Month}: {Months[_Month - 1]} {_Year}";
         }
 
         /// <summary>
