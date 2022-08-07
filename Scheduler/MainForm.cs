@@ -13,18 +13,14 @@ namespace Scheduler
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            CurrentForm[0] = NBF;
+            CurrentForm[0] = EF;
             MainDisplayNewForm(new EventList());
         }
 
-        private void HeroDisplayNewForm(object SelectedForm)
-        {
-            Form _Form = SelectedForm as Form;
-            _Form.TopLevel = false;
-            _Form.Dock = DockStyle.Fill;
-            _Form.Show();
-        }
-
+        /// <summary>
+        /// This method will display the navigated form that the user requested
+        /// </summary>
+        /// <param name="SelectedForm"></param>
         private void MainDisplayNewForm(object SelectedForm) 
         { 
             Form _Form     = SelectedForm as Form;
@@ -36,8 +32,8 @@ namespace Scheduler
         }
 
         /// <summary>
-        /// Check if form is already on the navigated form that the user
-        /// has clicked on
+        /// Check if form is already displaying the form that the user
+        /// has requested to navigate to
         /// </summary>
         private void CheckIfCurrentForm(string NavigatedForm, Form _Form) 
         {

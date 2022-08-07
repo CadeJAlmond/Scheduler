@@ -46,7 +46,7 @@
             // 
             // AddEventBtn
             // 
-            this.AddEventBtn.Location = new System.Drawing.Point(49, 161);
+            this.AddEventBtn.Location = new System.Drawing.Point(1664, 291);
             this.AddEventBtn.Name = "AddEventBtn";
             this.AddEventBtn.Size = new System.Drawing.Size(303, 58);
             this.AddEventBtn.TabIndex = 0;
@@ -57,27 +57,33 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(858, 170);
+            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label1.Location = new System.Drawing.Point(75, 200);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(168, 41);
+            this.label1.Size = new System.Drawing.Size(293, 68);
             this.label1.TabIndex = 3;
             this.label1.Text = "This Week: ";
             // 
             // SortByLbl
             // 
             this.SortByLbl.AutoSize = true;
-            this.SortByLbl.Location = new System.Drawing.Point(1575, 170);
+            this.SortByLbl.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.SortByLbl.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.SortByLbl.Location = new System.Drawing.Point(871, 200);
             this.SortByLbl.Name = "SortByLbl";
-            this.SortByLbl.Size = new System.Drawing.Size(127, 41);
+            this.SortByLbl.Size = new System.Drawing.Size(222, 68);
             this.SortByLbl.TabIndex = 4;
             this.SortByLbl.Text = "Sort By: ";
             // 
             // SortByCategoryLbl
             // 
             this.SortByCategoryLbl.AutoSize = true;
-            this.SortByCategoryLbl.Location = new System.Drawing.Point(1708, 170);
+            this.SortByCategoryLbl.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.SortByCategoryLbl.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.SortByCategoryLbl.Location = new System.Drawing.Point(1076, 202);
             this.SortByCategoryLbl.Name = "SortByCategoryLbl";
-            this.SortByCategoryLbl.Size = new System.Drawing.Size(166, 41);
+            this.SortByCategoryLbl.Size = new System.Drawing.Size(283, 68);
             this.SortByCategoryLbl.TabIndex = 5;
             this.SortByCategoryLbl.Text = "Completed";
             // 
@@ -85,7 +91,7 @@
             // 
             this.ThisWeekTable.ColumnCount = 1;
             this.ThisWeekTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ThisWeekTable.Location = new System.Drawing.Point(858, 242);
+            this.ThisWeekTable.Location = new System.Drawing.Point(75, 293);
             this.ThisWeekTable.Name = "ThisWeekTable";
             this.ThisWeekTable.RowCount = 10;
             this.ThisWeekTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
@@ -98,14 +104,14 @@
             this.ThisWeekTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.ThisWeekTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.ThisWeekTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.ThisWeekTable.Size = new System.Drawing.Size(634, 1061);
+            this.ThisWeekTable.Size = new System.Drawing.Size(652, 1061);
             this.ThisWeekTable.TabIndex = 6;
             // 
             // SortByTable
             // 
             this.SortByTable.ColumnCount = 1;
             this.SortByTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.SortByTable.Location = new System.Drawing.Point(1563, 242);
+            this.SortByTable.Location = new System.Drawing.Point(857, 293);
             this.SortByTable.Name = "SortByTable";
             this.SortByTable.RowCount = 10;
             this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
@@ -118,55 +124,63 @@
             this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.SortByTable.Size = new System.Drawing.Size(624, 1061);
+            this.SortByTable.Size = new System.Drawing.Size(686, 1061);
             this.SortByTable.TabIndex = 7;
             // 
             // EventNameLbl
             // 
             this.EventNameLbl.AutoSize = true;
-            this.EventNameLbl.Location = new System.Drawing.Point(58, 273);
+            this.EventNameLbl.Font = new System.Drawing.Font("Arimo", 9.900001F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.EventNameLbl.ForeColor = System.Drawing.Color.Gainsboro;
+            this.EventNameLbl.Location = new System.Drawing.Point(1664, 403);
             this.EventNameLbl.Name = "EventNameLbl";
-            this.EventNameLbl.Size = new System.Drawing.Size(184, 41);
+            this.EventNameLbl.Size = new System.Drawing.Size(209, 39);
             this.EventNameLbl.TabIndex = 8;
             this.EventNameLbl.Text = "Event Name:";
             // 
             // EventDescLbl
             // 
             this.EventDescLbl.AutoSize = true;
-            this.EventDescLbl.Location = new System.Drawing.Point(56, 391);
+            this.EventDescLbl.Font = new System.Drawing.Font("Arimo", 9.900001F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.EventDescLbl.ForeColor = System.Drawing.Color.Gainsboro;
+            this.EventDescLbl.Location = new System.Drawing.Point(1662, 521);
             this.EventDescLbl.Name = "EventDescLbl";
-            this.EventDescLbl.Size = new System.Drawing.Size(264, 41);
+            this.EventDescLbl.Size = new System.Drawing.Size(296, 39);
             this.EventDescLbl.TabIndex = 9;
             this.EventDescLbl.Text = "Event Description :";
             // 
             // EventCompletionDateLbl
             // 
             this.EventCompletionDateLbl.AutoSize = true;
-            this.EventCompletionDateLbl.Location = new System.Drawing.Point(56, 777);
+            this.EventCompletionDateLbl.Font = new System.Drawing.Font("Arimo", 9.900001F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.EventCompletionDateLbl.ForeColor = System.Drawing.Color.Gainsboro;
+            this.EventCompletionDateLbl.Location = new System.Drawing.Point(1662, 907);
             this.EventCompletionDateLbl.Name = "EventCompletionDateLbl";
-            this.EventCompletionDateLbl.Size = new System.Drawing.Size(251, 41);
+            this.EventCompletionDateLbl.Size = new System.Drawing.Size(271, 39);
             this.EventCompletionDateLbl.TabIndex = 10;
             this.EventCompletionDateLbl.Text = "Completion Date:";
             // 
             // EventPriority
             // 
             this.EventPriority.AutoSize = true;
-            this.EventPriority.Location = new System.Drawing.Point(56, 904);
+            this.EventPriority.Font = new System.Drawing.Font("Arimo", 9.900001F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.EventPriority.ForeColor = System.Drawing.Color.Gainsboro;
+            this.EventPriority.Location = new System.Drawing.Point(1662, 1034);
             this.EventPriority.Name = "EventPriority";
-            this.EventPriority.Size = new System.Drawing.Size(194, 41);
+            this.EventPriority.Size = new System.Drawing.Size(217, 39);
             this.EventPriority.TabIndex = 11;
             this.EventPriority.Text = "Priority Level:";
             // 
             // EventNameTxtBox
             // 
-            this.EventNameTxtBox.Location = new System.Drawing.Point(100, 327);
+            this.EventNameTxtBox.Location = new System.Drawing.Point(1664, 457);
             this.EventNameTxtBox.Name = "EventNameTxtBox";
             this.EventNameTxtBox.Size = new System.Drawing.Size(558, 47);
             this.EventNameTxtBox.TabIndex = 12;
             // 
             // EventDescTxtBox
             // 
-            this.EventDescTxtBox.Location = new System.Drawing.Point(100, 446);
+            this.EventDescTxtBox.Location = new System.Drawing.Point(1664, 572);
             this.EventDescTxtBox.Multiline = true;
             this.EventDescTxtBox.Name = "EventDescTxtBox";
             this.EventDescTxtBox.Size = new System.Drawing.Size(558, 313);
@@ -174,14 +188,14 @@
             // 
             // CompletionDateTxtBx
             // 
-            this.CompletionDateTxtBx.Location = new System.Drawing.Point(100, 841);
+            this.CompletionDateTxtBx.Location = new System.Drawing.Point(1664, 968);
             this.CompletionDateTxtBx.Name = "CompletionDateTxtBx";
             this.CompletionDateTxtBx.Size = new System.Drawing.Size(558, 47);
             this.CompletionDateTxtBx.TabIndex = 14;
             // 
             // PriorityLvlTxtBox
             // 
-            this.PriorityLvlTxtBox.Location = new System.Drawing.Point(100, 968);
+            this.PriorityLvlTxtBox.Location = new System.Drawing.Point(1664, 1095);
             this.PriorityLvlTxtBox.Name = "PriorityLvlTxtBox";
             this.PriorityLvlTxtBox.Size = new System.Drawing.Size(558, 47);
             this.PriorityLvlTxtBox.TabIndex = 15;
@@ -190,6 +204,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
             this.ClientSize = new System.Drawing.Size(2291, 1442);
             this.Controls.Add(this.PriorityLvlTxtBox);
             this.Controls.Add(this.CompletionDateTxtBx);
@@ -205,9 +220,11 @@
             this.Controls.Add(this.SortByLbl);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.AddEventBtn);
+            this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "EventList";
             this.Text = "EventHandle";
+            this.Load += new System.EventHandler(this.EventList_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

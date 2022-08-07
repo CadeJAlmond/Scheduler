@@ -42,8 +42,15 @@ namespace Scheduler
             GetSQLInfo();
         }
 
+        // Updates the page from information contained within the SQL DB
         private void GetSQLInfo() 
-        { 
+        {
+            Stack<Note> ToAdd = SQLHandle.FindNotes();
+            while(ToAdd.Count > 0) 
+            { 
+                Note NewNote = ToAdd.Pop();
+                Notes.Rows.Add(NewNote.Name, NewNote.Content);
+            }
         }
 
         private void NewNoteBtn_Click(object sender, EventArgs e)
@@ -55,8 +62,10 @@ namespace Scheduler
         private void SaveNoteBtn_Click(object sender, EventArgs e)
         {
             string NoteTitle = NoteTitleTxtBox.Text;
-            string NoteMsg   = NoteMsgTxtBox.Text; 
-            Notes.Rows.Add(NoteTitle, NoteMsg);
+            string NoteMsg   = NoteMsgTxtBox.Text;
+            SQLHandle.InsertNotes(NoteTitle, NoteMsg, "");
+            Notes.Clear();
+            GetSQLInfo();
         }
 
         private void ReadNoteBtn_Click(object sender, EventArgs e)
