@@ -2,6 +2,7 @@ namespace Scheduler
 {
     public partial class MainForm : Form
     {
+        // Variables for form navigation
         string[] CurrentForm = {""};
         string NBF = "NoteBookForm";
         string CF  = "CalendarForm";
@@ -11,6 +12,10 @@ namespace Scheduler
             InitializeComponent();
         }
 
+        /// <summary>
+        /// The starting application will display the EventForm once
+        /// it starts
+        /// </summary>
         private void MainForm_Load(object sender, EventArgs e)
         {
             CurrentForm[0] = EF;

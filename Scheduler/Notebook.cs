@@ -13,17 +13,8 @@ namespace Scheduler
     public partial class Notebook : Form
     {
         // TODO
-        // ADD SQL TABLE
-        // The table should act as the "Notes" 
-        // ---------- OnLoad
-        // on load, probe the SQL table and add all applicable contents to the 
-        // Notes
-        // ---------- Saving
-        // Send info to SQL
         // ---------- Deleting
         // Remove info from SQL
-        // ---------- Read
-        // Retrieve info from SQL
 
         DataTable Notes;
         public Notebook()
@@ -31,6 +22,11 @@ namespace Scheduler
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Established the data structures for the Notes to be 
+        /// jnteracted with, and displayed within data sent to the
+        /// SQL DB.
+        /// </summary>
         private void Notebook_Load(object sender, EventArgs e)
         {
             Notes = new DataTable();
@@ -42,7 +38,9 @@ namespace Scheduler
             GetSQLInfo();
         }
 
-        // Updates the page from information contained within the SQL DB
+        /// <summary>
+        /// Updates the page from information contained within the SQL DB.
+        /// </summary>
         private void GetSQLInfo() 
         {
             Stack<Note> ToAdd = SQLHandle.FindNotes();
@@ -53,19 +51,39 @@ namespace Scheduler
             }
         }
 
+        /// <summary>
+        /// Will clear the data-relevant sections which will be
+        /// required for a new note to be created and saved.
+        /// </summary>
         private void NewNoteBtn_Click(object sender, EventArgs e)
         {
             NoteTitleTxtBox.Clear();
             NoteMsgTxtBox  .Clear();
         }
 
+        /// <summary>
+        /// This method is responsible for gathering data to send
+        /// to the SQL DB to be saved. 
+        /// </summary>
         private void SaveNoteBtn_Click(object sender, EventArgs e)
         {
+            if (IncompletelInput()) 
+            {
+                MessageBox.Show("Plesse write into Title or Content field");
+                return;
+            } 
             string NoteTitle = NoteTitleTxtBox.Text;
             string NoteMsg   = NoteMsgTxtBox.Text;
             SQLHandle.InsertNotes(NoteTitle, NoteMsg, "");
             Notes.Clear();
             GetSQLInfo();
+        }
+
+        private bool IncompletelInput() 
+        {
+            if (NoteTitleTxtBox.Text == "")
+                return true;
+            return NoteMsgTxtBox.Text == "";
         }
 
         private void ReadNoteBtn_Click(object sender, EventArgs e)
@@ -79,6 +97,10 @@ namespace Scheduler
             }
         }
 
+        /// <summary>
+        /// This method is responsible for locating the desired note
+        /// data to remove from the SQL DB. 
+        /// </summary>
         private void DeleteNoteBtn_Click(object sender, EventArgs e)
         {
             int index = NoteBookGallery.CurrentCell.RowIndex;

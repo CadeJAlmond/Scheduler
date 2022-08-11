@@ -18,62 +18,85 @@ namespace Scheduler
             InitializeComponent();
         }
 
+        /// <summary>
+        /// When the form begins, it will load information from the SQL
+        /// DB.
+        /// </summary>
         private void EventList_Load(object sender, EventArgs e)
         {
-            GetSQlInfo();
+            DisplaySQlInfo();
         }
 
-        private void GetSQlInfo() 
+        /// <summary>
+        /// This method will query SQL for all uncompleted events to
+        /// display for the user
+        /// </summary>
+        private void DisplaySQlInfo() 
         { 
             Stack<_Event> ToDisplay = SQLHandle.ListUncompletedEvents();  
             while(ToDisplay.Count > 0) 
             {
                 _Event CurrentEvent = ToDisplay.Pop();
-                CalendarDay test = new CalendarDay();
-                test.AddDayLabel(CurrentEvent.Name);
-                ThisWeekTable.Controls.Add(test);
+                EventDisplay EventUI = new EventDisplay();
+                EventUI.Display(CurrentEvent);
+                ThisWeekTable.Controls.Add(EventUI);
+                // SortByTable.Controls.Add(EventUI);
             }
         }
 
+        /// <summary>
+        /// This method is responsible for reading and evaluating the
+        /// date inside of fields related to adding information into SQL.
+        /// </summary>
         private void AddEventBtn_Click(object sender, EventArgs e)
         {
-            if (!ValidInputs(out int _Case))
+            // Checks the Data entered from the Date field
+            if (!ValidDateFormat(out int _Case))
             {
                 if (_Case == 1)
                 {
-                    MessageBox.Show("1");
+                    MessageBox.Show("Please fill Date field");
                     return;
                 }
                 if (_Case == 2)
                 {
-                    MessageBox.Show("2");
+                    MessageBox.Show("Invalid Date entered");
                     return;
                 }
                 if (_Case == 3)
                 {
-                    MessageBox.Show("3");
+                    MessageBox.Show("Please enter Date into yy-mm-dd format");
                     return;
                 }
             }
             if (SQLHandle.ContainsEvent("hi") == true) 
             {
-                MessageBox.Show("No");
+                MessageBox.Show("Event has already been added to SQL");
                 return;
             }
+            // If no priority level is estalibshed, set prio as 0 otherwise dont change it
             string ePrio = PriorityLvlTxtBox.Text == " " ? ePrio = "0" : ePrio = PriorityLvlTxtBox.Text;
 
+            // Insert Data into SQL 
             SQLHandle.InsertEvent(EventNameTxtBox.Text, EventDescTxtBox.Text,
                                   CompletionDateTxtBx.Text, ePrio );
-
+            // Clear input fields
             PriorityLvlTxtBox.Text = EventNameTxtBox.Text = 
                 EventDescTxtBox.Text = CompletionDateTxtBx.Text = " ";
 
-            GetSQlInfo();
+            ThisWeekTable.Controls.Clear();
+            DisplaySQlInfo();
         }
 
-        private bool ValidInputs(out int Case) 
+        /// <summary>
+        /// Checks the 
+        /// </summary>
+        /// <param name="Case"></param>
+        /// <returns></returns>
+        private bool ValidDateFormat(out int Case) 
         {
             Case = 0;
+            // Regex checks for yy/mm/dd format
             Regex DateFormat = new Regex(@"^\d{4}/\d{1,2}/\d{1,2}$");
             if (EventNameTxtBox.Text == "")
             {
@@ -90,9 +113,15 @@ namespace Scheduler
             return false;
         }
 
+        /// <summary>
+        /// This method will check if the given
+        ///     1. Month > 12 
+        ///     2. The given day is outside the bands of the given month.
+        /// </summary>
+        /// <returns></returns>
         private bool IsLegalDate(string Year, string Month, string Day) 
         {
-            //Need to still check for 
+            //Need to still check for days in month 
             if (int.Parse(Month) > 12)
                 return false;
             else

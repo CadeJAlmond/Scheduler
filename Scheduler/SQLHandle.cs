@@ -14,6 +14,8 @@ namespace Scheduler
 
         static SQLHandle()
         {
+            // Construct and gather the information to allow a connection to
+            // a SQL DB 
             var builder = new ConfigurationBuilder();
             builder.AddUserSecrets<SQLHandle>();
             IConfigurationRoot Configuration = builder.Build();
@@ -31,6 +33,12 @@ namespace Scheduler
             }.ConnectionString;
         }
 
+        ///</summary>
+        /// This method will insert an event into an SQL DB table.
+        /// An Event contains a name, decription, date for completion,
+        /// and a priority level which will be displayed in connection
+        /// to the related forms.
+        ///</summary>
         public static void InsertEvent(string eName, string eDesc, string eDueDate, string ePriority) 
         {
             string eColor = "fffff";
@@ -49,11 +57,26 @@ namespace Scheduler
             }
         }
 
+        /// <summary>
+        /// The format yy/mm/dd is commonnly used, but for SQL
+        /// data objects the format is yy-mm-dd so this format will
+        /// be changed for SQL if used in the app.
+        /// </summary>
+        /// <param name="DateToFormat"></param>
+        /// <returns></returns>
         private static string FormatDate(string DateToFormat) 
         {
             return DateToFormat.Replace('/', '-');
         }
 
+        /// <summary>
+        /// This method will consturct the correct format (yy-mm-dd) for 
+        /// the date object to place into SQL of the current day, and a
+        /// second out parameter which will be year-month to be searched 
+        /// in the calendar form. 
+        /// </summary>
+        /// <param name="eSearch"></param>
+        /// <returns></returns>
         private static string GetDate(out string eSearch)
         {
            DateTime CurrentDate = DateTime.Now;
@@ -64,6 +87,15 @@ namespace Scheduler
            return    $"{Year}-{Month}-{Day}";
         }
 
+        /// <summary>
+        /// This method will insert a note into the SQL DB.
+        /// This note will contain a title, content, and an event
+        /// connection, which these notes can be attached to a pre-
+        /// established event. 
+        /// </summary>
+        /// <param name="nTitle"></param>
+        /// <param name="nContent"></param>
+        /// <param name="eConnection"></param>
         public static void InsertNotes(string nTitle, string nContent, string eConnection)
         {
             string nDate = GetDate(out string UnneededInfo);
@@ -78,11 +110,30 @@ namespace Scheduler
             }
         }
 
+        public static void DeleteNote(string nTitle, string nContent)
+        {
+            string InsertIDLifeSpan = $"DELETE FROM NotesContainer WHERE NotesTitle = " +
+                $"'{nTitle}' AND WHERE NotesContent = '{nContent}')";
+            SqlCommand InsertCommand;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
+                InsertCommand.ExecuteNonQuery();
+            }
+            return;
+        }
+
         public static bool ContainsEvent(string ToCheck) 
         {
             return false;
         }
 
+        /// <summary>
+        /// Returns a Stack containting Events which have been completed
+        /// by the user inside of the SQL DB
+        /// </summary>
+        /// <returns></returns>
         public static Stack<_Event> ListCompletedEvents()
         {
             Stack<_Event> EventList = new Stack<_Event>();
@@ -97,12 +148,12 @@ namespace Scheduler
                     {
                         while (reader.Read())
                         {
-                            eDate = reader["EventDueDate"].ToString();
                             eTitle = reader["EventName"].ToString();
                             eColor = reader["EventColor"].ToString();
+                            eDate = reader["EventDueDate"].ToString();
                             ePrio = reader["EventPriority"].ToString();
                             eDesc = reader["EventDescription"].ToString();
-                            EventList.Push(new _Event(eTitle, eColor, eDate, ePrio, eDesc));
+                            EventList.Push(new _Event(eTitle, eColor, eDesc, eDate, ePrio));
                         }
                     }
                 }
@@ -110,6 +161,10 @@ namespace Scheduler
             return EventList;
         }
 
+        /// <summary>
+        /// Returns a Stack containting Events which have been uncompleted
+        /// by the user inside of the SQL DB
+        /// </summary>
         public static Stack<_Event> ListUncompletedEvents()
         {
             Stack<_Event> EventList= new Stack<_Event>();
@@ -124,12 +179,12 @@ namespace Scheduler
                     {
                         while (reader.Read()) 
                         {
-                            eDate = reader["EventDueDate"].ToString();
                             eTitle = reader["EventName"].ToString();
                             eColor = reader["EventColor"].ToString();
+                            eDate = reader["EventDueDate"].ToString();
                             ePrio = reader["EventPriority"].ToString();
                             eDesc = reader["EventDescription"].ToString();
-                            EventList.Push(new _Event(eTitle, eColor, eDate, ePrio, eDesc));
+                            EventList.Push(new _Event(eTitle, eColor, eDesc, eDate, ePrio));
                         }
                     }
                 }
@@ -151,7 +206,7 @@ namespace Scheduler
                     {
                         while (reader.Read()) 
                         {
-                            nTitle = reader["NotesTitle"].ToString();
+                            nTitle   = reader["NotesTitle"].ToString();
                             nContent = reader["NotesContent"].ToString();
                             nDate    = reader["NotesDate"].ToString();
                             Notes.Push(new Note(nTitle, nContent, nDate));
@@ -162,8 +217,51 @@ namespace Scheduler
             return Notes;
         }
 
-        public void ThisMonthsEvents(string SelectedMonth)
+        public static bool HasEvent(string DateToSearch) 
         {
+            string SearchForDate = $"SELECT * FROM EventContainer WHERE EventDueDate ='{DateToSearch}'";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(SearchForDate, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        return reader.HasRows;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns all events which are occuring within the given month
+        /// </summary>
+        /// <param name="SelectedMonth"></param>
+        public static Stack<_Event> GetEvents(string DateToSearch)
+        {
+            Stack<_Event> EventList = new Stack<_Event>();
+            string eTitle, eDate, eDesc, eColor, ePrio, SearchByDate;
+            string GetEvents = $"SELECT * FROM EventContainer WHERE EventDueDate ='{DateToSearch}'";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(GetEvents, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            eTitle = reader["EventName"].ToString();
+                            eColor = reader["EventColor"].ToString();
+                            eDate = reader["EventDueDate"].ToString();
+                            ePrio = reader["EventPriority"].ToString();
+                            eDesc = reader["EventDescription"].ToString();
+                            EventList.Push(new _Event(eTitle, eColor, eDesc, eDate, ePrio));
+                        }
+                    }
+                }
+            }
+            return EventList;
         }
     }
 }

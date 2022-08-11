@@ -4,8 +4,6 @@ namespace Scheduler
 {
     public partial class Calendar : Form
     {
-        // IDEA, NEED TO USE THE MONTHS ARRAY IN THE CALENDAR HERO DISPLAY
-        // ALONG WITH THE MONTH AND YEAR INTS
 
         // Values for Calendar navigation
         int Day, Month, Year;
@@ -13,7 +11,6 @@ namespace Scheduler
                            "Jan", "Feb", "Mar", "Apr", "May",
                            "Jun", "Jul", "Aug", "Sep", "Oct",
                            "Nov", "Dec"};
-
 
         BackgroundWorker CalendarThread = new BackgroundWorker();
         public Calendar()
@@ -24,6 +21,10 @@ namespace Scheduler
             CalendarThread.ProgressChanged += CalendarThread_ProgressChanged;
         }
 
+        /// <summary>
+        /// The application will find the information about the current
+        /// month.
+        /// </summary>
         private void Calendar_Load(object sender, EventArgs e)
         {
             // Gather Current Month Information
@@ -61,10 +62,12 @@ namespace Scheduler
         {
             if (e.ProgressPercentage == 0)
                 this.CalendarGrid.Controls.Add(new EmptyDay());
+            else if (e.ProgressPercentage == 100)
+                CalendarMonth.Text = $"{Month}: {Months[Month - 1]} {Year}";
             else
             {
                 CalendarDay NewDay = new CalendarDay();
-                NewDay.AddDayLabel(Day++.ToString());
+                NewDay.AddDayLabel(Day++.ToString(), Month, Year);
                 this.CalendarGrid.Controls.Add((NewDay));
             }
         }
@@ -102,10 +105,7 @@ namespace Scheduler
                 DaysToAdd = --DaysInMonth > 0;
             }
 
-            //!!!!!!!!!!!!!!!!!! THIS NEEDS TO BE DONE IN REPORT PROGRESS
-            
-            // Display Month Info 
-            CalendarMonth.Text = $"{_Month}: {Months[_Month - 1]} {_Year}";
+            CalendarThread.ReportProgress(100);
         }
 
         /// <summary>
