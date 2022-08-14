@@ -46,12 +46,15 @@
             // 
             // AddEventBtn
             // 
-            this.AddEventBtn.Location = new System.Drawing.Point(1655, 261);
+            this.AddEventBtn.BackColor = System.Drawing.Color.Transparent;
+            this.AddEventBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AddEventBtn.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.AddEventBtn.Location = new System.Drawing.Point(1655, 229);
             this.AddEventBtn.Name = "AddEventBtn";
-            this.AddEventBtn.Size = new System.Drawing.Size(303, 58);
+            this.AddEventBtn.Size = new System.Drawing.Size(340, 90);
             this.AddEventBtn.TabIndex = 0;
             this.AddEventBtn.Text = "Add New Event";
-            this.AddEventBtn.UseVisualStyleBackColor = true;
+            this.AddEventBtn.UseVisualStyleBackColor = false;
             this.AddEventBtn.Click += new System.EventHandler(this.AddEventBtn_Click);
             // 
             // label1
@@ -61,9 +64,9 @@
             this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label1.Location = new System.Drawing.Point(77, 136);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(436, 68);
+            this.label1.Size = new System.Drawing.Size(458, 68);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Upcoming Event: ";
+            this.label1.Text = "Upcoming Events: ";
             // 
             // SortByLbl
             // 
@@ -166,6 +169,8 @@
             // 
             // EventNameTxtBox
             // 
+            this.EventNameTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.EventNameTxtBox.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.EventNameTxtBox.Location = new System.Drawing.Point(1655, 427);
             this.EventNameTxtBox.Name = "EventNameTxtBox";
             this.EventNameTxtBox.Size = new System.Drawing.Size(558, 47);
@@ -173,6 +178,8 @@
             // 
             // EventDescTxtBox
             // 
+            this.EventDescTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.EventDescTxtBox.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.EventDescTxtBox.Location = new System.Drawing.Point(1655, 542);
             this.EventDescTxtBox.Multiline = true;
             this.EventDescTxtBox.Name = "EventDescTxtBox";
@@ -181,6 +188,8 @@
             // 
             // CompletionDateTxtBx
             // 
+            this.CompletionDateTxtBx.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.CompletionDateTxtBx.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.CompletionDateTxtBx.Location = new System.Drawing.Point(1655, 938);
             this.CompletionDateTxtBx.Name = "CompletionDateTxtBx";
             this.CompletionDateTxtBx.Size = new System.Drawing.Size(558, 47);
@@ -188,6 +197,8 @@
             // 
             // PriorityLvlTxtBox
             // 
+            this.PriorityLvlTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.PriorityLvlTxtBox.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.PriorityLvlTxtBox.Location = new System.Drawing.Point(1655, 1066);
             this.PriorityLvlTxtBox.Name = "PriorityLvlTxtBox";
             this.PriorityLvlTxtBox.Size = new System.Drawing.Size(558, 47);

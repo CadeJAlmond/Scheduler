@@ -12,14 +12,12 @@ namespace Scheduler
 {
     public partial class Notebook : Form
     {
-        // TODO
-        // ---------- Deleting
-        // Remove info from SQL
-
+        // TODO SEARCH FOR PRE-EXISTING NOTES
         DataTable Notes;
         public Notebook()
         {
             InitializeComponent();
+
         }
 
         /// <summary>
@@ -35,14 +33,15 @@ namespace Scheduler
 
             NoteBookGallery.DataSource = Notes;
             NoteBookGallery.Columns["Messages"].Visible = false;
-            GetSQLInfo();
+            DisplaySQLInfo();
         }
 
         /// <summary>
         /// Updates the page from information contained within the SQL DB.
         /// </summary>
-        private void GetSQLInfo() 
+        private void DisplaySQLInfo() 
         {
+            Notes.Clear();
             Stack<Note> ToAdd = SQLHandle.FindNotes();
             while(ToAdd.Count > 0) 
             { 
@@ -75,8 +74,7 @@ namespace Scheduler
             string NoteTitle = NoteTitleTxtBox.Text;
             string NoteMsg   = NoteMsgTxtBox.Text;
             SQLHandle.InsertNotes(NoteTitle, NoteMsg, "");
-            Notes.Clear();
-            GetSQLInfo();
+            DisplaySQLInfo();
         }
 
         private bool IncompletelInput() 
@@ -103,9 +101,31 @@ namespace Scheduler
         /// </summary>
         private void DeleteNoteBtn_Click(object sender, EventArgs e)
         {
+            string NoteTitle, NoteContent;
             int index = NoteBookGallery.CurrentCell.RowIndex;
+            NoteTitle   = Notes.Rows[index].ItemArray[0].ToString();
+            NoteContent = Notes.Rows[index].ItemArray[1].ToString();
+            SQLHandle.DeleteNote(NoteTitle, NoteContent);
+            DisplaySQLInfo();
+            NoteTitleTxtBox.Clear();
+            NoteMsgTxtBox  .Clear();
+        }
 
-            Notes.Rows[index].Delete();
+        private void NoteBookGallery_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = NoteBookGallery.CurrentCell.RowIndex;
+            
+            if (index > -1)
+            {
+                NoteTitleTxtBox.Text = Notes.Rows[index].ItemArray[0].ToString();
+                NoteTitleLbl.Text    = Notes.Rows[index].ItemArray[0].ToString();
+                NoteMsgTxtBox.Text   = Notes.Rows[index].ItemArray[1].ToString();
+            }
+        }
+
+        private void NoteTitleTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            NoteTitleLbl.Text = NoteTitleTxtBox.Text;
         }
     }
 }

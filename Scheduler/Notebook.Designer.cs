@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.NoteBookGallery = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.NoteTitleTxtBox = new System.Windows.Forms.TextBox();
@@ -36,9 +37,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.NewNoteBtn = new System.Windows.Forms.Button();
             this.SaveNoteBtn = new System.Windows.Forms.Button();
-            this.ReadNoteBtn = new System.Windows.Forms.Button();
             this.DeleteNoteBtn = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.NoteTitleLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NoteBookGallery)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,14 +49,26 @@
             this.NoteBookGallery.AllowUserToDeleteRows = false;
             this.NoteBookGallery.AllowUserToResizeColumns = false;
             this.NoteBookGallery.AllowUserToResizeRows = false;
+            this.NoteBookGallery.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.NoteBookGallery.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.NoteBookGallery.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.NoteBookGallery.Location = new System.Drawing.Point(145, 316);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.CornflowerBlue;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.NoteBookGallery.DefaultCellStyle = dataGridViewCellStyle1;
+            this.NoteBookGallery.GridColor = System.Drawing.SystemColors.Control;
+            this.NoteBookGallery.Location = new System.Drawing.Point(145, 358);
             this.NoteBookGallery.Name = "NoteBookGallery";
             this.NoteBookGallery.RowHeadersVisible = false;
             this.NoteBookGallery.RowHeadersWidth = 102;
             this.NoteBookGallery.RowTemplate.Height = 49;
-            this.NoteBookGallery.Size = new System.Drawing.Size(411, 701);
+            this.NoteBookGallery.Size = new System.Drawing.Size(411, 768);
             this.NoteBookGallery.TabIndex = 0;
+            this.NoteBookGallery.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.NoteBookGallery_CellClick);
             // 
             // label1
             // 
@@ -70,17 +83,24 @@
             // 
             // NoteTitleTxtBox
             // 
+            this.NoteTitleTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.NoteTitleTxtBox.Font = new System.Drawing.Font("Segoe UI", 11.1F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.NoteTitleTxtBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.NoteTitleTxtBox.Location = new System.Drawing.Point(864, 228);
+            this.NoteTitleTxtBox.Multiline = true;
             this.NoteTitleTxtBox.Name = "NoteTitleTxtBox";
-            this.NoteTitleTxtBox.Size = new System.Drawing.Size(710, 47);
+            this.NoteTitleTxtBox.Size = new System.Drawing.Size(710, 84);
             this.NoteTitleTxtBox.TabIndex = 2;
+            this.NoteTitleTxtBox.TextChanged += new System.EventHandler(this.NoteTitleTxtBox_TextChanged);
             // 
             // NoteMsgTxtBox
             // 
-            this.NoteMsgTxtBox.Location = new System.Drawing.Point(864, 316);
+            this.NoteMsgTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.NoteMsgTxtBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.NoteMsgTxtBox.Location = new System.Drawing.Point(864, 358);
             this.NoteMsgTxtBox.Multiline = true;
             this.NoteMsgTxtBox.Name = "NoteMsgTxtBox";
-            this.NoteMsgTxtBox.Size = new System.Drawing.Size(1068, 701);
+            this.NoteMsgTxtBox.Size = new System.Drawing.Size(1068, 768);
             this.NoteMsgTxtBox.TabIndex = 3;
             // 
             // label2
@@ -99,7 +119,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9.900001F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label3.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label3.Location = new System.Drawing.Point(735, 316);
+            this.label3.Location = new System.Drawing.Point(735, 358);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(116, 46);
             this.label3.TabIndex = 5;
@@ -107,46 +127,41 @@
             // 
             // NewNoteBtn
             // 
-            this.NewNoteBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(42)))));
-            this.NewNoteBtn.Location = new System.Drawing.Point(145, 222);
+            this.NewNoteBtn.BackColor = System.Drawing.Color.Transparent;
+            this.NewNoteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.NewNoteBtn.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.NewNoteBtn.Location = new System.Drawing.Point(145, 228);
             this.NewNoteBtn.Name = "NewNoteBtn";
-            this.NewNoteBtn.Size = new System.Drawing.Size(407, 58);
+            this.NewNoteBtn.Size = new System.Drawing.Size(407, 84);
             this.NewNoteBtn.TabIndex = 6;
             this.NewNoteBtn.Text = "New Notebook";
-            this.NewNoteBtn.UseVisualStyleBackColor = true;
+            this.NewNoteBtn.UseVisualStyleBackColor = false;
             this.NewNoteBtn.Click += new System.EventHandler(this.NewNoteBtn_Click);
             // 
             // SaveNoteBtn
             // 
-            this.SaveNoteBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(42)))));
-            this.SaveNoteBtn.Location = new System.Drawing.Point(864, 1054);
+            this.SaveNoteBtn.BackColor = System.Drawing.Color.Transparent;
+            this.SaveNoteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SaveNoteBtn.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.SaveNoteBtn.Location = new System.Drawing.Point(864, 1170);
             this.SaveNoteBtn.Name = "SaveNoteBtn";
             this.SaveNoteBtn.Size = new System.Drawing.Size(188, 55);
             this.SaveNoteBtn.TabIndex = 7;
             this.SaveNoteBtn.Text = "Save";
-            this.SaveNoteBtn.UseVisualStyleBackColor = true;
+            this.SaveNoteBtn.UseVisualStyleBackColor = false;
             this.SaveNoteBtn.Click += new System.EventHandler(this.SaveNoteBtn_Click);
-            // 
-            // ReadNoteBtn
-            // 
-            this.ReadNoteBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(42)))));
-            this.ReadNoteBtn.Location = new System.Drawing.Point(145, 1054);
-            this.ReadNoteBtn.Name = "ReadNoteBtn";
-            this.ReadNoteBtn.Size = new System.Drawing.Size(188, 55);
-            this.ReadNoteBtn.TabIndex = 8;
-            this.ReadNoteBtn.Text = "Read";
-            this.ReadNoteBtn.UseVisualStyleBackColor = true;
-            this.ReadNoteBtn.Click += new System.EventHandler(this.ReadNoteBtn_Click);
             // 
             // DeleteNoteBtn
             // 
-            this.DeleteNoteBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(42)))));
-            this.DeleteNoteBtn.Location = new System.Drawing.Point(364, 1054);
+            this.DeleteNoteBtn.BackColor = System.Drawing.Color.Transparent;
+            this.DeleteNoteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DeleteNoteBtn.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.DeleteNoteBtn.Location = new System.Drawing.Point(1079, 1170);
             this.DeleteNoteBtn.Name = "DeleteNoteBtn";
             this.DeleteNoteBtn.Size = new System.Drawing.Size(188, 55);
             this.DeleteNoteBtn.TabIndex = 9;
             this.DeleteNoteBtn.Text = "Delete";
-            this.DeleteNoteBtn.UseVisualStyleBackColor = true;
+            this.DeleteNoteBtn.UseVisualStyleBackColor = false;
             this.DeleteNoteBtn.Click += new System.EventHandler(this.DeleteNoteBtn_Click);
             // 
             // label4
@@ -154,11 +169,21 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label4.Location = new System.Drawing.Point(666, 123);
+            this.label4.Location = new System.Drawing.Point(853, 123);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(315, 68);
             this.label4.TabIndex = 10;
             this.label4.Text = "My Notes > ";
+            // 
+            // NoteTitleLbl
+            // 
+            this.NoteTitleLbl.AutoSize = true;
+            this.NoteTitleLbl.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.NoteTitleLbl.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.NoteTitleLbl.Location = new System.Drawing.Point(1135, 123);
+            this.NoteTitleLbl.Name = "NoteTitleLbl";
+            this.NoteTitleLbl.Size = new System.Drawing.Size(0, 68);
+            this.NoteTitleLbl.TabIndex = 11;
             // 
             // Notebook
             // 
@@ -166,9 +191,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(2291, 1442);
+            this.Controls.Add(this.NoteTitleLbl);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.DeleteNoteBtn);
-            this.Controls.Add(this.ReadNoteBtn);
             this.Controls.Add(this.SaveNoteBtn);
             this.Controls.Add(this.NewNoteBtn);
             this.Controls.Add(this.label3);
@@ -198,8 +223,8 @@
         private Label label3;
         private Button NewNoteBtn;
         private Button SaveNoteBtn;
-        private Button ReadNoteBtn;
         private Button DeleteNoteBtn;
         private Label label4;
+        private Label NoteTitleLbl;
     }
 }

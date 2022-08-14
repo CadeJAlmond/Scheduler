@@ -11,6 +11,7 @@ namespace Scheduler
                            "Jan", "Feb", "Mar", "Apr", "May",
                            "Jun", "Jul", "Aug", "Sep", "Oct",
                            "Nov", "Dec"};
+        HashSet<string> EventList;
 
         BackgroundWorker CalendarThread = new BackgroundWorker();
         public Calendar()
@@ -67,6 +68,8 @@ namespace Scheduler
             else
             {
                 CalendarDay NewDay = new CalendarDay();
+                if (EventList.Contains((Day).ToString()))
+                    NewDay.DisplayEvents($"{Year}-{Month}-{Day}");
                 NewDay.AddDayLabel(Day++.ToString(), Month, Year);
                 this.CalendarGrid.Controls.Add((NewDay));
             }
@@ -96,6 +99,9 @@ namespace Scheduler
                 CalendarThread.ReportProgress(0);
                 EmptyDaysToAdd = (--PlaceHolderDays > 0);
             }
+
+            // Search what days in the month events are happening
+            EventList = SQLHandle.GetEventDays($"{_Year}-{_Month}");
 
             // Place Actual Days
             bool DaysToAdd = DaysInMonth > 0;

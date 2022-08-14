@@ -23,16 +23,6 @@ namespace Scheduler
         public void AddDayLabel(string DisplayDay, int _Month, int _Year) 
         { 
             DayLabel.Text = DisplayDay;
-          //  CheckForEvents($"{_Year}-{_Month}-{DisplayDay}");
-        }
-
-        private void CheckForEvents(string DateSearch) 
-        {
-            string Day = DayLabel.Text;
-            bool search = SQLHandle.HasEvent(DateSearch);
-            if(search)
-                DisplayEvents(DateSearch);
-            return;
         }
 
         public void DisplayEvents(string DateSearch) 

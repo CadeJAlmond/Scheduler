@@ -112,8 +112,8 @@ namespace Scheduler
 
         public static void DeleteNote(string nTitle, string nContent)
         {
-            string InsertIDLifeSpan = $"DELETE FROM NotesContainer WHERE NotesTitle = " +
-                $"'{nTitle}' AND WHERE NotesContent = '{nContent}')";
+            string InsertIDLifeSpan = $"DELETE FROM NotesContainer WHERE CONVERT(VARCHAR, " +
+                $"NotesTitle) ='{nTitle}' AND CONVERT(VARCHAR, NotesContent )= '{nContent}'";
             SqlCommand InsertCommand;
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
@@ -263,5 +263,35 @@ namespace Scheduler
             }
             return EventList;
         }
+        /// <summary>
+        /// Returns all days where events are occuring within the given month
+        /// </summary>
+        /// <param name="SelectedMonth"></param>
+        public static HashSet<string> GetEventDays(string DateToSearch)
+        {
+            HashSet<string> EventList = new HashSet<string>();
+            string eDate;
+            string GetEvents = $"SELECT * FROM EventContainer WHERE CONVERT(VARCHAR," +
+                $" CalendarSearch) ='{DateToSearch}'";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(GetEvents, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            eDate = reader["EventDueDate"].ToString();
+                            eDate = eDate.Substring(eDate.IndexOf("/") + 1);
+                            eDate = eDate.Substring(0, eDate.IndexOf("/"));
+                            EventList.Add(eDate);
+                        }
+                    }
+                }
+            }
+            return EventList;
+        }
+
     }
 }
