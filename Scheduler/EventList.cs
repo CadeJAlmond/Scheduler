@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Scheduler
 {
@@ -19,8 +11,8 @@ namespace Scheduler
         }
 
         /// <summary>
-        /// When the form begins, it will load information from the SQL
-        /// DB.
+        /// When the form begins, this method will load the uncompleted events
+        /// from the SQL DB.
         /// </summary>
         private void EventList_Load(object sender, EventArgs e)
         {
@@ -36,17 +28,18 @@ namespace Scheduler
             Stack<_Event> ToDisplay = SQLHandle.ListUncompletedEvents();  
             while(ToDisplay.Count > 0) 
             {
-                _Event CurrentEvent = ToDisplay.Pop();
+                _Event DisplayEvent = ToDisplay.Pop();
                 EventDisplay EventUI = new EventDisplay();
-                EventUI.Display(CurrentEvent);
+                EventUI.Display(DisplayEvent);
                 ThisWeekTable.Controls.Add(EventUI);
-                // SortByTable.Controls.Add(EventUI);
             }
         }
 
         /// <summary>
         /// This method is responsible for reading and evaluating the
-        /// date inside of fields related to adding information into SQL.
+        /// data inside of text fields related to adding information 
+        /// into SQL. If the providing data is legal, than we insert
+        /// the data into the SQL EventContainer.
         /// </summary>
         private void AddEventBtn_Click(object sender, EventArgs e)
         {
@@ -55,27 +48,28 @@ namespace Scheduler
             {
                 if (_Case == 1)
                 {
-                    MessageBox.Show("Please fill Date field");
+                    MessageBox.Show("Please fill relevant data fields");
                     return;
                 }
                 if (_Case == 2)
                 {
-                    MessageBox.Show("Invalid Date entered");
+                    MessageBox.Show("Invalid Date entered. Please try again.");
                     return;
                 }
                 if (_Case == 3)
                 {
-                    MessageBox.Show("Please enter Date into yy-mm-dd format");
+                    MessageBox.Show("Please enter Date using yy-mm-dd format");
                     return;
                 }
             }
-            if (SQLHandle.ContainsEvent("hi") == true) 
+            if (SQLHandle.AlreadyHasEvent("hi") == true) 
             {
-                MessageBox.Show("Event has already been added to SQL");
+                MessageBox.Show("This Event has already been added to SQL. Please try again.");
                 return;
             }
             // If no priority level is estalibshed, set prio as 0 otherwise dont change it
-            string ePrio = PriorityLvlTxtBox.Text == " " ? ePrio = "0" : ePrio = PriorityLvlTxtBox.Text;
+            string ePrio = PriorityLvlTxtBox.Text == " " ? 
+                ePrio = "0" : ePrio = PriorityLvlTxtBox.Text;
 
             // Insert Data into SQL 
             SQLHandle.InsertEvent(EventNameTxtBox.Text, EventDescTxtBox.Text,
@@ -84,12 +78,25 @@ namespace Scheduler
             PriorityLvlTxtBox.Text = EventNameTxtBox.Text = 
                 EventDescTxtBox.Text = CompletionDateTxtBx.Text = " ";
 
+            // Update UI
             ThisWeekTable.Controls.Clear();
             DisplaySQlInfo();
         }
 
+        private string RemoveEmptyChars(string ToUpdate)
+        {
+            StringBuilder Updated = new StringBuilder();
+            foreach(char Letter in ToUpdate)
+                if(Letter != ' ')
+                    Updated.Append(Letter);
+            return Updated.ToString();
+
+        }
+
         /// <summary>
-        /// Checks the 
+        /// Checks the formating of the Date that was inputted into the 
+        /// CompletionDate Text Box and will return if the format is 
+        /// acceptable for SQL Use. 
         /// </summary>
         /// <param name="Case"></param>
         /// <returns></returns>
@@ -98,15 +105,17 @@ namespace Scheduler
             Case = 0;
             // Regex checks for yy/mm/dd format
             Regex DateFormat = new Regex(@"^\d{4}/\d{1,2}/\d{1,2}$");
+            string Date      = RemoveEmptyChars ( CompletionDateTxtBx.Text );
+
             if (EventNameTxtBox.Text == "")
             {
                 Case = 1;
                 return false;
             }
-            if (DateFormat.IsMatch(CompletionDateTxtBx.Text))
+            if (DateFormat.IsMatch(Date))
             {
                 Case = 3;
-                string[] DateInfo = CompletionDateTxtBx.Text.Split('/');
+                string[] DateInfo = Date.Split('/');
                 return IsLegalDate(DateInfo[0], DateInfo[1], DateInfo[2]);
             }
             Case = 2;
@@ -127,5 +136,8 @@ namespace Scheduler
             else
                 return true;
         }
+
+        // EVENTLIST Multi-Threading
+        // WORK ON FAST ALGORITHM FOR CALENDAR
     }
 }

@@ -33,12 +33,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.NoteTitleTxtBox = new System.Windows.Forms.TextBox();
             this.NoteMsgTxtBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.MyNotesListLbl = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.NewNoteBtn = new System.Windows.Forms.Button();
             this.SaveNoteBtn = new System.Windows.Forms.Button();
             this.DeleteNoteBtn = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
+            this.MyNotesDisplayLbl = new System.Windows.Forms.Label();
             this.NoteTitleLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NoteBookGallery)).BeginInit();
             this.SuspendLayout();
@@ -55,7 +55,7 @@
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.CornflowerBlue;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -103,16 +103,16 @@
             this.NoteMsgTxtBox.Size = new System.Drawing.Size(1068, 768);
             this.NoteMsgTxtBox.TabIndex = 3;
             // 
-            // label2
+            // MyNotesListLbl
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label2.Location = new System.Drawing.Point(145, 123);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(252, 68);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "My Notes";
+            this.MyNotesListLbl.AutoSize = true;
+            this.MyNotesListLbl.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.MyNotesListLbl.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.MyNotesListLbl.Location = new System.Drawing.Point(145, 123);
+            this.MyNotesListLbl.Name = "MyNotesListLbl";
+            this.MyNotesListLbl.Size = new System.Drawing.Size(252, 68);
+            this.MyNotesListLbl.TabIndex = 4;
+            this.MyNotesListLbl.Text = "My Notes";
             // 
             // label3
             // 
@@ -164,16 +164,16 @@
             this.DeleteNoteBtn.UseVisualStyleBackColor = false;
             this.DeleteNoteBtn.Click += new System.EventHandler(this.DeleteNoteBtn_Click);
             // 
-            // label4
+            // MyNotesDisplayLbl
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label4.Location = new System.Drawing.Point(853, 123);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(315, 68);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "My Notes > ";
+            this.MyNotesDisplayLbl.AutoSize = true;
+            this.MyNotesDisplayLbl.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.MyNotesDisplayLbl.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.MyNotesDisplayLbl.Location = new System.Drawing.Point(853, 123);
+            this.MyNotesDisplayLbl.Name = "MyNotesDisplayLbl";
+            this.MyNotesDisplayLbl.Size = new System.Drawing.Size(315, 68);
+            this.MyNotesDisplayLbl.TabIndex = 10;
+            this.MyNotesDisplayLbl.Text = "My Notes > ";
             // 
             // NoteTitleLbl
             // 
@@ -189,20 +189,20 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
             this.ClientSize = new System.Drawing.Size(2291, 1442);
             this.Controls.Add(this.NoteTitleLbl);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.MyNotesDisplayLbl);
             this.Controls.Add(this.DeleteNoteBtn);
             this.Controls.Add(this.SaveNoteBtn);
             this.Controls.Add(this.NewNoteBtn);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.MyNotesListLbl);
             this.Controls.Add(this.NoteMsgTxtBox);
             this.Controls.Add(this.NoteTitleTxtBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.NoteBookGallery);
-            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Notebook";
             this.Text = "Notebook";
@@ -219,12 +219,12 @@
         private Label label1;
         private TextBox NoteTitleTxtBox;
         private TextBox NoteMsgTxtBox;
-        private Label label2;
+        private Label MyNotesListLbl;
         private Label label3;
         private Button NewNoteBtn;
         private Button SaveNoteBtn;
         private Button DeleteNoteBtn;
-        private Label label4;
+        private Label MyNotesDisplayLbl;
         private Label NoteTitleLbl;
     }
 }

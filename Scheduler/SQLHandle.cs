@@ -1,10 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Scheduler
 {
@@ -14,13 +9,13 @@ namespace Scheduler
 
         static SQLHandle()
         {
-            // Construct and gather the information to allow a connection to
+            // Gather and construct the information to allow a connection to
             // a SQL DB 
             var builder = new ConfigurationBuilder();
             builder.AddUserSecrets<SQLHandle>();
             IConfigurationRoot Configuration = builder.Build();
-            var DatabaseServer   = Configuration.GetSection("ServerURL");
-            var DatabaseCatalog  = Configuration.GetSection("DBName");
+            var DatabaseServer  = Configuration.GetSection("ServerURL");
+            var DatabaseCatalog = Configuration.GetSection("DBName");
             var DatabaseUserID   = Configuration.GetSection("UserName");
             var DatabasePassword = Configuration.GetSection("DBPassword");
             ConnectionString = new SqlConnectionStringBuilder()
@@ -36,14 +31,14 @@ namespace Scheduler
         ///</summary>
         /// This method will insert an event into an SQL DB table.
         /// An Event contains a name, decription, date for completion,
-        /// and a priority level which will be displayed in connection
-        /// to the related forms.
+        /// a priority level, and a color which will be displayed into 
+        /// forms such as the Calendar, and Eventlist.
         ///</summary>
-        public static void InsertEvent(string eName, string eDesc, string eDueDate, string ePriority) 
+        public static void InsertEvent(string eName, string eDesc, string eDueDate, string ePriority)
         {
-            string eColor = "fffff";
-                   eDueDate = FormatDate(eDueDate);
+            eDueDate = FormatDate(eDueDate);
             string eDate = GetDate(out string eSearch);
+            string eColor = OptimizeColor(eSearch);
             string InsertIDLifeSpan = "INSERT INTO EventContainer(EventName, EventDescription, " +
                          $"EventColor, EventPriority, EventCreationDate, EventDueDate, CalendarSearch," +
                          $" Completed) VALUES('{eName}', '{eDesc}', '{eColor}', {ePriority}, '{eDate}', " +
@@ -64,7 +59,7 @@ namespace Scheduler
         /// </summary>
         /// <param name="DateToFormat"></param>
         /// <returns></returns>
-        private static string FormatDate(string DateToFormat) 
+        private static string FormatDate(string DateToFormat)
         {
             return DateToFormat.Replace('/', '-');
         }
@@ -79,12 +74,54 @@ namespace Scheduler
         /// <returns></returns>
         private static string GetDate(out string eSearch)
         {
-           DateTime CurrentDate = DateTime.Now;
-           int Month = CurrentDate.Month;
-           int Year  = CurrentDate.Year;
-           int Day   = CurrentDate.Day;
-           eSearch = $"{Year}-{Month}";
-           return    $"{Year}-{Month}-{Day}";
+            DateTime CurrentDate = DateTime.Now;
+            int Month = CurrentDate.Month;
+            int Year = CurrentDate.Year;
+            int Day = CurrentDate.Day;
+            eSearch = $"{Year}-{Month}";
+            return $"{Year}-{Month}-{Day}";
+        }
+
+        /// <summary>
+        /// This method will generate a new color for Events. The 
+        /// colors are choosen in two different ways. If no Events have
+        /// occured in the desired month, than we will randomly choose 
+        /// one. Otherwise, we choose the color opposite of the color 
+        /// wheel, (Color Theory), or choose a random color. 
+        /// </summary>
+        private static string OptimizeColor(string Date)
+        {
+            if (FirstEventInMonth(Date))
+                return ColorHandle.GetNextColor(Date);
+            else
+                return ColorHandle.FirstColorSelector();
+        }
+
+        /// <summary>
+        /// This method will query the SQL DB, attempting to determine
+        /// if any Events exist within a given month using a Date and checking
+        /// if the Table has any rows. 
+        /// </summary>
+        private static bool FirstEventInMonth(string Date)
+        {
+            string GetEvents = $"SELECT * FROM EventContainer WHERE CONVERT(VARCHAR," +
+                $" CalendarSearch) ='{Date}'";
+            bool EventsInMonth = false;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(GetEvents, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            return reader.HasRows;
+                        }
+                    }
+                }
+                return EventsInMonth;
+            }
         }
 
         /// <summary>
@@ -110,6 +147,12 @@ namespace Scheduler
             }
         }
 
+        /// <summary>
+        /// This method is responsible for removing Note entries
+        /// from the SQL DB given a Notes name and the notes content.
+        /// </summary>
+        /// <param name="nTitle"></param>
+        /// <param name="nContent"></param>
         public static void DeleteNote(string nTitle, string nContent)
         {
             string InsertIDLifeSpan = $"DELETE FROM NotesContainer WHERE CONVERT(VARCHAR, " +
@@ -122,11 +165,6 @@ namespace Scheduler
                 InsertCommand.ExecuteNonQuery();
             }
             return;
-        }
-
-        public static bool ContainsEvent(string ToCheck) 
-        {
-            return false;
         }
 
         /// <summary>
@@ -167,7 +205,7 @@ namespace Scheduler
         /// </summary>
         public static Stack<_Event> ListUncompletedEvents()
         {
-            Stack<_Event> EventList= new Stack<_Event>();
+            Stack<_Event> EventList = new Stack<_Event>();
             string eTitle, eDate, eDesc, eColor, ePrio;
             string GetEvents = ("SELECT TOP (10) * FROM EventContainer WHERE Completed = 0 ORDER BY EventCreationDate");
             using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -177,7 +215,7 @@ namespace Scheduler
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read()) 
+                        while (reader.Read())
                         {
                             eTitle = reader["EventName"].ToString();
                             eColor = reader["EventColor"].ToString();
@@ -204,11 +242,11 @@ namespace Scheduler
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read()) 
+                        while (reader.Read())
                         {
                             nTitle   = reader["NotesTitle"].ToString();
                             nContent = reader["NotesContent"].ToString();
-                            nDate    = reader["NotesDate"].ToString();
+                            nDate = reader["NotesDate"].ToString();
                             Notes.Push(new Note(nTitle, nContent, nDate));
                         }
                     }
@@ -217,7 +255,7 @@ namespace Scheduler
             return Notes;
         }
 
-        public static bool HasEvent(string DateToSearch) 
+        public static bool HasEvent(string DateToSearch)
         {
             string SearchForDate = $"SELECT * FROM EventContainer WHERE EventDueDate ='{DateToSearch}'";
             using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -233,8 +271,43 @@ namespace Scheduler
             }
         }
 
+        public static bool HasNote(string _NoteTitle)
+        {
+            string SearchForDate = $"SELECT * FROM NotesContainer WHERE " +
+                $"CONVERT(VARCHAR, NotesTitle) ='{_NoteTitle}'";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(SearchForDate, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        return reader.HasRows;
+                    }
+                }
+            }
+        }
+
+        public static bool AlreadyHasEvent(string EName)
+        {
+            // SHOULD ADD A DESC, CREATION DATE, AND DUEDATE TO THIS!
+            string SearchForDate = $"SELECT * FROM EventContainer WHERE CONVERT(VARCHAR, " +
+                $"EventName) ='{EName}'";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(SearchForDate, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        return reader.HasRows;
+                    }
+                }
+            }
+        }
+
         /// <summary>
-        /// Returns all events which are occuring within the given month
+        /// Returns all events which are occuring within a given month.
         /// </summary>
         /// <param name="SelectedMonth"></param>
         public static Stack<_Event> GetEvents(string DateToSearch)
@@ -263,6 +336,7 @@ namespace Scheduler
             }
             return EventList;
         }
+
         /// <summary>
         /// Returns all days where events are occuring within the given month
         /// </summary>
@@ -293,5 +367,81 @@ namespace Scheduler
             return EventList;
         }
 
+        /// <summary>
+        /// This method is used to locate the most recentley added Event
+        /// to a given month. Once the event if found we add its information
+        /// which will be used to generate a new color.
+        /// </summary>
+        /// <param name="DateToSearch"></param>
+        /// <returns></returns>
+        public static _Event GetLastEventInMonth(string DateToSearch)
+        {
+            _Event LastEvent;
+            string eTitle, eDate, eDesc, eColor, ePrio;
+            eTitle = eDate = eDesc = eColor = ePrio = "";
+            string GetEvents = $"SELECT TOP(1) * FROM EventContainer WHERE CONVERT(VARCHAR," +
+                $" CalendarSearch) ='{DateToSearch}' ORDER BY EventCreationDate";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(GetEvents, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            eTitle = reader["EventName"].ToString();
+                            eColor = reader["EventColor"].ToString();
+                            eDate = reader["EventDueDate"].ToString();
+                            ePrio = reader["EventPriority"].ToString();
+                            eDesc = reader["EventDescription"].ToString();
+                        }
+                    }
+                }
+            }
+            return LastEvent = new _Event(eTitle, eColor, eDesc, eDate, ePrio);
+        }
+
+        public static void UpdateEvent(string eName, string eDate) 
+        {
+            string InsertIDLifeSpan = "UPDATE EventContainer SET Completed = '1' WHERE " +
+                $"( CONVERT(VARCHAR, EventName) = '{eName}' AND EventDueDate = '{eDate}' )";
+            SqlCommand InsertCommand;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
+                InsertCommand.ExecuteNonQuery();
+            }
+            return;
+        }
+
+        public static void UpdateNoteEntry(string NoteTitle, string UpdatedContent)
+        {
+            string InsertIDLifeSpan = $"UPDATE NotesContainer SET NotesContent = '{UpdatedContent}'" +
+                $" WHERE CONVERT(VARCHAR, NotesTitle) = '{NoteTitle}'";
+            SqlCommand InsertCommand;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
+                InsertCommand.ExecuteNonQuery();
+            }
+            return;
+        }
+
+
+        public static void MarkCompletedEvents(string Date)
+        {
+            Stack<_Event> Events = GetEvents(Date);
+            while(Events.Count > 0) 
+            { 
+                _Event CheckDate = Events.Pop();
+                int DayInMonth = int.Parse(CheckDate.Date.Substring(0, 2));
+                int CurrentDay = int.Parse(Date.Substring(0, 3));
+                if (DayInMonth > CurrentDay)
+                    UpdateEvent(CheckDate.Name, CheckDate.Date);
+            }
+        }
     }
 }

@@ -50,9 +50,11 @@
             // 
             // NoteBNavigationBtn
             // 
-            this.NoteBNavigationBtn.Location = new System.Drawing.Point(141, 463);
+            this.NoteBNavigationBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.NoteBNavigationBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(146)))), ((int)(((byte)(60)))));
+            this.NoteBNavigationBtn.Location = new System.Drawing.Point(101, 569);
             this.NoteBNavigationBtn.Name = "NoteBNavigationBtn";
-            this.NoteBNavigationBtn.Size = new System.Drawing.Size(188, 58);
+            this.NoteBNavigationBtn.Size = new System.Drawing.Size(236, 81);
             this.NoteBNavigationBtn.TabIndex = 2;
             this.NoteBNavigationBtn.Text = "Notebook";
             this.NoteBNavigationBtn.UseVisualStyleBackColor = true;
@@ -60,9 +62,11 @@
             // 
             // CalendarNavigationBtn
             // 
-            this.CalendarNavigationBtn.Location = new System.Drawing.Point(135, 368);
+            this.CalendarNavigationBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CalendarNavigationBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(146)))), ((int)(((byte)(60)))));
+            this.CalendarNavigationBtn.Location = new System.Drawing.Point(101, 448);
             this.CalendarNavigationBtn.Name = "CalendarNavigationBtn";
-            this.CalendarNavigationBtn.Size = new System.Drawing.Size(188, 58);
+            this.CalendarNavigationBtn.Size = new System.Drawing.Size(236, 81);
             this.CalendarNavigationBtn.TabIndex = 1;
             this.CalendarNavigationBtn.Text = "Calendar";
             this.CalendarNavigationBtn.UseVisualStyleBackColor = true;
@@ -70,9 +74,11 @@
             // 
             // EventNavigationBtn
             // 
-            this.EventNavigationBtn.Location = new System.Drawing.Point(135, 266);
+            this.EventNavigationBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.EventNavigationBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(146)))), ((int)(((byte)(60)))));
+            this.EventNavigationBtn.Location = new System.Drawing.Point(101, 324);
             this.EventNavigationBtn.Name = "EventNavigationBtn";
-            this.EventNavigationBtn.Size = new System.Drawing.Size(188, 58);
+            this.EventNavigationBtn.Size = new System.Drawing.Size(236, 81);
             this.EventNavigationBtn.TabIndex = 0;
             this.EventNavigationBtn.Text = "Events";
             this.EventNavigationBtn.UseVisualStyleBackColor = true;

@@ -70,7 +70,7 @@ namespace Scheduler
                 CalendarDay NewDay = new CalendarDay();
                 if (EventList.Contains((Day).ToString()))
                     NewDay.DisplayEvents($"{Year}-{Month}-{Day}");
-                NewDay.AddDayLabel(Day++.ToString(), Month, Year);
+                NewDay.AddDayLabel(Day++.ToString());
                 this.CalendarGrid.Controls.Add((NewDay));
             }
         }
@@ -130,7 +130,6 @@ namespace Scheduler
             CheckYear(GoNextMonth);
             CalendarThread.RunWorkerAsync();
         }
-
 
         /// <summary>
         /// This method ensures that the Calender will make ensure

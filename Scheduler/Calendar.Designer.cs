@@ -65,6 +65,8 @@
             // 
             // PrevBtn
             // 
+            this.PrevBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PrevBtn.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.PrevBtn.Location = new System.Drawing.Point(1712, 121);
             this.PrevBtn.Name = "PrevBtn";
             this.PrevBtn.Size = new System.Drawing.Size(180, 58);
@@ -75,6 +77,8 @@
             // 
             // NextBtn
             // 
+            this.NextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.NextBtn.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.NextBtn.Location = new System.Drawing.Point(1908, 121);
             this.NextBtn.Name = "NextBtn";
             this.NextBtn.Size = new System.Drawing.Size(179, 58);

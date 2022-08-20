@@ -39,6 +39,7 @@
             // 
             this.DayLabel.AutoSize = true;
             this.DayLabel.BackColor = System.Drawing.Color.Transparent;
+            this.DayLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DayLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(146)))), ((int)(((byte)(60)))));
             this.DayLabel.Location = new System.Drawing.Point(44, 22);
             this.DayLabel.Name = "DayLabel";
@@ -78,6 +79,7 @@
             // 
             this.EventLabel2.AutoSize = true;
             this.EventLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+            this.EventLabel2.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.EventLabel2.Location = new System.Drawing.Point(63, 133);
             this.EventLabel2.Name = "EventLabel2";
             this.EventLabel2.Size = new System.Drawing.Size(0, 41);

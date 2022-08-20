@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.AddEventBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.UpcomingEventsLbl = new System.Windows.Forms.Label();
             this.SortByLbl = new System.Windows.Forms.Label();
             this.SortByCategoryLbl = new System.Windows.Forms.Label();
             this.ThisWeekTable = new System.Windows.Forms.TableLayoutPanel();
@@ -42,6 +42,7 @@
             this.EventDescTxtBox = new System.Windows.Forms.TextBox();
             this.CompletionDateTxtBx = new System.Windows.Forms.TextBox();
             this.PriorityLvlTxtBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // AddEventBtn
@@ -57,16 +58,16 @@
             this.AddEventBtn.UseVisualStyleBackColor = false;
             this.AddEventBtn.Click += new System.EventHandler(this.AddEventBtn_Click);
             // 
-            // label1
+            // UpcomingEventsLbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label1.Location = new System.Drawing.Point(77, 136);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(458, 68);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Upcoming Events: ";
+            this.UpcomingEventsLbl.AutoSize = true;
+            this.UpcomingEventsLbl.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.UpcomingEventsLbl.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.UpcomingEventsLbl.Location = new System.Drawing.Point(77, 136);
+            this.UpcomingEventsLbl.Name = "UpcomingEventsLbl";
+            this.UpcomingEventsLbl.Size = new System.Drawing.Size(458, 68);
+            this.UpcomingEventsLbl.TabIndex = 3;
+            this.UpcomingEventsLbl.Text = "Upcoming Events: ";
             // 
             // SortByLbl
             // 
@@ -204,12 +205,23 @@
             this.PriorityLvlTxtBox.Size = new System.Drawing.Size(558, 47);
             this.PriorityLvlTxtBox.TabIndex = 15;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label1.Location = new System.Drawing.Point(1930, 877);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(172, 41);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "YY-MM-DD";
+            // 
             // EventList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
             this.ClientSize = new System.Drawing.Size(2291, 1442);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.PriorityLvlTxtBox);
             this.Controls.Add(this.CompletionDateTxtBx);
             this.Controls.Add(this.EventDescTxtBox);
@@ -222,7 +234,7 @@
             this.Controls.Add(this.ThisWeekTable);
             this.Controls.Add(this.SortByCategoryLbl);
             this.Controls.Add(this.SortByLbl);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.UpcomingEventsLbl);
             this.Controls.Add(this.AddEventBtn);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -237,7 +249,7 @@
         #endregion
 
         private Button AddEventBtn;
-        private Label label1;
+        private Label UpcomingEventsLbl;
         private Label SortByLbl;
         private Label SortByCategoryLbl;
         private TableLayoutPanel ThisWeekTable;
@@ -250,5 +262,6 @@
         private TextBox EventDescTxtBox;
         private TextBox CompletionDateTxtBx;
         private TextBox PriorityLvlTxtBox;
+        private Label label1;
     }
 }
