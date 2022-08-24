@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.NoteBookGallery = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.NoteTitleTxtBox = new System.Windows.Forms.TextBox();
@@ -40,6 +40,7 @@
             this.DeleteNoteBtn = new System.Windows.Forms.Button();
             this.MyNotesDisplayLbl = new System.Windows.Forms.Label();
             this.NoteTitleLbl = new System.Windows.Forms.Label();
+            this.NOTES = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NoteBookGallery)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,14 +53,14 @@
             this.NoteBookGallery.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.NoteBookGallery.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.NoteBookGallery.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.CornflowerBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.NoteBookGallery.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.CornflowerBlue;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.NoteBookGallery.DefaultCellStyle = dataGridViewCellStyle7;
             this.NoteBookGallery.GridColor = System.Drawing.SystemColors.Control;
             this.NoteBookGallery.Location = new System.Drawing.Point(145, 358);
             this.NoteBookGallery.Name = "NoteBookGallery";
@@ -106,6 +107,7 @@
             // MyNotesListLbl
             // 
             this.MyNotesListLbl.AutoSize = true;
+            this.MyNotesListLbl.BackColor = System.Drawing.Color.Transparent;
             this.MyNotesListLbl.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.MyNotesListLbl.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.MyNotesListLbl.Location = new System.Drawing.Point(145, 123);
@@ -167,9 +169,10 @@
             // MyNotesDisplayLbl
             // 
             this.MyNotesDisplayLbl.AutoSize = true;
+            this.MyNotesDisplayLbl.BackColor = System.Drawing.Color.Transparent;
             this.MyNotesDisplayLbl.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.MyNotesDisplayLbl.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.MyNotesDisplayLbl.Location = new System.Drawing.Point(853, 123);
+            this.MyNotesDisplayLbl.Location = new System.Drawing.Point(854, 123);
             this.MyNotesDisplayLbl.Name = "MyNotesDisplayLbl";
             this.MyNotesDisplayLbl.Size = new System.Drawing.Size(315, 68);
             this.MyNotesDisplayLbl.TabIndex = 10;
@@ -184,6 +187,18 @@
             this.NoteTitleLbl.Name = "NoteTitleLbl";
             this.NoteTitleLbl.Size = new System.Drawing.Size(0, 68);
             this.NoteTitleLbl.TabIndex = 11;
+            // 
+            // NOTES
+            // 
+            this.NOTES.AutoSize = true;
+            this.NOTES.BackColor = System.Drawing.Color.Transparent;
+            this.NOTES.Font = new System.Drawing.Font("Segoe UI Semibold", 49.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.NOTES.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(67)))));
+            this.NOTES.Location = new System.Drawing.Point(221, 33);
+            this.NOTES.Name = "NOTES";
+            this.NOTES.Size = new System.Drawing.Size(831, 219);
+            this.NOTES.TabIndex = 12;
+            this.NOTES.Text = "N O T E S ";
             // 
             // Notebook
             // 
@@ -202,6 +217,7 @@
             this.Controls.Add(this.NoteTitleTxtBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.NoteBookGallery);
+            this.Controls.Add(this.NOTES);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Notebook";
@@ -226,5 +242,6 @@
         private Button DeleteNoteBtn;
         private Label MyNotesDisplayLbl;
         private Label NoteTitleLbl;
+        private Label NOTES;
     }
 }

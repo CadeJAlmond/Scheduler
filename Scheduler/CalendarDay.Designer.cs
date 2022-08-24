@@ -45,7 +45,7 @@
             this.DayLabel.Name = "DayLabel";
             this.DayLabel.Size = new System.Drawing.Size(69, 41);
             this.DayLabel.TabIndex = 0;
-            this.DayLabel.Text = "Day";
+            this.DayLabel.Text = "";
             // 
             // EventColorPanel1
             // 

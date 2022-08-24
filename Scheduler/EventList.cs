@@ -3,6 +3,18 @@ using System.Text.RegularExpressions;
 
 namespace Scheduler
 {
+    // Author : Cade Almond
+    // Date   : 8/3/2022
+    //
+    // Class Contents 
+    // This class will manage the creation, and presentation of
+    // events into the program for users to implement. This form 
+    // will allow the user to
+    // 	1. Create Events
+    // 	2. Mark Events as completed
+    // 	3. Filter which Events are being displayed.
+    // This class communicates with SQLHandle to read, create 
+    //  and update events.  
     public partial class EventList : Form
     {
         public EventList()
@@ -31,7 +43,7 @@ namespace Scheduler
                 _Event DisplayEvent = ToDisplay.Pop();
                 EventDisplay EventUI = new EventDisplay();
                 EventUI.Display(DisplayEvent);
-                ThisWeekTable.Controls.Add(EventUI);
+                UpcomingEventsTable.Controls.Add(EventUI);
             }
         }
 
@@ -79,7 +91,7 @@ namespace Scheduler
                 EventDescTxtBox.Text = CompletionDateTxtBx.Text = " ";
 
             // Update UI
-            ThisWeekTable.Controls.Clear();
+            UpcomingEventsTable.Controls.Clear();
             DisplaySQlInfo();
         }
 
@@ -138,6 +150,5 @@ namespace Scheduler
         }
 
         // EVENTLIST Multi-Threading
-        // WORK ON FAST ALGORITHM FOR CALENDAR
     }
 }

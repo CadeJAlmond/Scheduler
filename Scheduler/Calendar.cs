@@ -2,11 +2,22 @@
 
 namespace Scheduler
 {
+    // Author : Cade Almond
+    // Date   : 7/25/2022
+    //
+    // Class Contents 
+    // This class stimulates the real life use of a Calendar. 
+    // More specifically, this class is responsible for constructing a GUI 
+    // Calendar, which will traverse through, and display information 
+    // regarding different months  and different years. This Calendar will 
+    // also display any events which  are set to be completed within the 
+    // given month.  
+    //
     public partial class Calendar : Form
     {
 
         // Values for Calendar navigation
-        int Day, Month, Year;
+        int Day, Month, Year, GridIndex;
         string[] Months = {
                            "Jan", "Feb", "Mar", "Apr", "May",
                            "Jun", "Jul", "Aug", "Sep", "Oct",
@@ -17,7 +28,7 @@ namespace Scheduler
         public Calendar()
         {
             InitializeComponent();
-            CalendarThread.DoWork          += CalendarThread_DoWork;
+            CalendarThread.DoWork += CalendarThread_DoWork;
             CalendarThread.WorkerReportsProgress = true;
             CalendarThread.ProgressChanged += CalendarThread_ProgressChanged;
         }
@@ -32,7 +43,8 @@ namespace Scheduler
             DateTime CurrentDate = DateTime.Now;
             Month = CurrentDate.Month;
             Year  = CurrentDate.Year;
-            Day = 1;
+            Day   = 1;
+            GridIndex = 0;
 
             if (!CalendarThread.IsBusy)
                 CalendarThread.RunWorkerAsync();
@@ -61,17 +73,17 @@ namespace Scheduler
         /// </summary>
         public void CalendarThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            CalendarDay NewDay = new CalendarDay();
             if (e.ProgressPercentage == 0)
-                this.CalendarGrid.Controls.Add(new EmptyDay());
+                (CalendarGrid.Controls[GridIndex++] as CalendarDay).AddDayLabel(" ");
             else if (e.ProgressPercentage == 100)
                 CalendarMonth.Text = $"{Month}: {Months[Month - 1]} {Year}";
             else
             {
-                CalendarDay NewDay = new CalendarDay();
-                if (EventList.Contains((Day).ToString()))
-                    NewDay.DisplayEvents($"{Year}-{Month}-{Day}");
-                NewDay.AddDayLabel(Day++.ToString());
-                this.CalendarGrid.Controls.Add((NewDay));
+                if(EventList.Contains((Day).ToString()))
+                    (CalendarGrid.Controls[GridIndex++] as CalendarDay).DisplayEvents(Day++.ToString(), $"{Year}-{Month}-{Day - 1}");
+                else
+                    (CalendarGrid.Controls[GridIndex++] as CalendarDay).AddDayLabel(Day++.ToString());
             }
         }
 
@@ -118,10 +130,8 @@ namespace Scheduler
         /// This method is responsible for incrementing or decrementing
         /// the appropriate values to display into the Calender.
         /// </summary>
-        private void UpdateMonth(bool GoNextMonth, int ResetDay)
+        private void UpdateMonth(bool GoNextMonth, int ResetDay, int ResetGridI)
         {
-            CalendarGrid.Controls.Clear();
-
             if (GoNextMonth)
                 Month++;
             else
@@ -156,7 +166,7 @@ namespace Scheduler
         private void PrevBtn_Click_1(object sender, EventArgs e)
         {
             if (!CalendarThread.IsBusy)
-                UpdateMonth(false, Day = 1);
+                UpdateMonth(false, Day = 1, GridIndex = 0); 
         }
 
         /// <summary>
@@ -166,7 +176,7 @@ namespace Scheduler
         private void NextBtn_Click_1(object sender, EventArgs e)
         {
             if (!CalendarThread.IsBusy)
-                UpdateMonth(true, Day = 1);
+                UpdateMonth(true, Day = 1, GridIndex = 0); 
         }
     }
 }

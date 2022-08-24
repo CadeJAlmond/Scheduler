@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace Scheduler
 {
+    // Author : Cade Almond
+    // Date   : 8/8/2022
+    //
+    // Class Contents 
+    // This class is responsible for generating colors for the Events to
+    // display while presented on the Calendar form. These Colors are
+    // generated using two strategies, one is selecting a random color,
+    // and the other using color theory to select the best color in comparison
+    // to the most previous chosen color.
     public static class ColorHandle
     {
        // Variable for random Color selection

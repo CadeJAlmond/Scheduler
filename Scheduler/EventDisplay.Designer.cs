@@ -28,39 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
+            this.EventDateBtnLbl = new System.Windows.Forms.RadioButton();
+            this.EventTitle = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // radioButton1
+            // EventDateBtnLbl
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.radioButton1.Location = new System.Drawing.Point(14, 20);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(228, 45);
-            this.radioButton1.TabIndex = 4;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "radioButton1";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.EventDateBtnLbl.AutoSize = true;
+            this.EventDateBtnLbl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.EventDateBtnLbl.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.EventDateBtnLbl.Location = new System.Drawing.Point(14, 20);
+            this.EventDateBtnLbl.MaximumSize = new System.Drawing.Size(200, 100);
+            this.EventDateBtnLbl.Name = "EventDateBtnLbl";
+            this.EventDateBtnLbl.Size = new System.Drawing.Size(200, 45);
+            this.EventDateBtnLbl.TabIndex = 4;
+            this.EventDateBtnLbl.TabStop = true;
+            this.EventDateBtnLbl.Text = "radioButton1";
+            this.EventDateBtnLbl.UseVisualStyleBackColor = true;
+            this.EventDateBtnLbl.CheckedChanged += new System.EventHandler(this.EventDateBtnLbl_CheckedChanged);
             // 
-            // label1
+            // EventTitle
             // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(186, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(97, 41);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "label1";
+            this.EventTitle.AutoSize = true;
+            this.EventTitle.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.EventTitle.Location = new System.Drawing.Point(186, 24);
+            this.EventTitle.Name = "EventTitle";
+            this.EventTitle.Size = new System.Drawing.Size(97, 41);
+            this.EventTitle.TabIndex = 5;
+            this.EventTitle.Text = "label1";
             // 
             // EventDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.EventTitle);
+            this.Controls.Add(this.EventDateBtnLbl);
             this.Name = "EventDisplay";
             this.Size = new System.Drawing.Size(726, 194);
             this.ResumeLayout(false);
@@ -70,7 +72,7 @@
 
         #endregion
 
-        private RadioButton radioButton1;
-        private Label label1;
+        private RadioButton EventDateBtnLbl;
+        private Label EventTitle;
     }
 }

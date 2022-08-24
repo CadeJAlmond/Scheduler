@@ -3,6 +3,19 @@ using System.Data.SqlClient;
 
 namespace Scheduler
 {
+    // Author : Cade Almond
+    // Date   : 8/3/2022
+    //
+    // Class Contents 
+    // This class acts as a communication pathway to an SQL DB.
+    // Functions in this class include
+    // 1. Inserting information 
+    // 2. Finding  information
+    // 3. Updating information
+    // 4. Deleting information 
+    // In the SQL DB, which is the backbone for the entire app
+    // functions. All relevamt information is saved within this
+    // DB and displayed to the user.
     public class SQLHandle
     {
         private static readonly string ConnectionString;
@@ -156,7 +169,7 @@ namespace Scheduler
         public static void DeleteNote(string nTitle, string nContent)
         {
             string InsertIDLifeSpan = $"DELETE FROM NotesContainer WHERE CONVERT(VARCHAR, " +
-                $"NotesTitle) ='{nTitle}' AND CONVERT(VARCHAR, NotesContent )= '{nContent}'";
+                $"NotesTitle) ='{nTitle}' AND NotesContent LIKE '{nContent}'";
             SqlCommand InsertCommand;
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
@@ -230,6 +243,10 @@ namespace Scheduler
             return EventList;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static Stack<Note> FindNotes()
         {
             Stack<Note> Notes = new Stack<Note>();
@@ -255,6 +272,13 @@ namespace Scheduler
             return Notes;
         }
 
+        /// <summary>
+        /// This method is used to locate if any Events exist within a 
+        /// given Year-Month timeframe given the Date to search, in the 
+        /// SQL DB.
+        /// </summary>
+        /// <param name="DateToSearch"></param>
+        /// <returns></returns>
         public static bool HasEvent(string DateToSearch)
         {
             string SearchForDate = $"SELECT * FROM EventContainer WHERE EventDueDate ='{DateToSearch}'";
@@ -271,6 +295,12 @@ namespace Scheduler
             }
         }
 
+        /// <summary>
+        /// This method will check is a note exists within the SQL
+        /// DB with the given Note Title name. 
+        /// </summary>
+        /// <param name="_NoteTitle"></param>
+        /// <returns></returns>
         public static bool HasNote(string _NoteTitle)
         {
             string SearchForDate = $"SELECT * FROM NotesContainer WHERE " +
@@ -288,6 +318,11 @@ namespace Scheduler
             }
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="EName"></param>
+        /// <returns></returns>
         public static bool AlreadyHasEvent(string EName)
         {
             // SHOULD ADD A DESC, CREATION DATE, AND DUEDATE TO THIS!
@@ -402,6 +437,14 @@ namespace Scheduler
             return LastEvent = new _Event(eTitle, eColor, eDesc, eDate, ePrio);
         }
 
+        /// <summary>
+        /// This method will locate a pre-existing Event using a
+        /// known Event Name, and DueDate, and will mark it as
+        /// completed, signified by setting Completed = 1 within
+        /// the SQL DB.
+        /// </summary>
+        /// <param name="eName"></param>
+        /// <param name="eDate"></param>
         public static void UpdateEvent(string eName, string eDate) 
         {
             string InsertIDLifeSpan = "UPDATE EventContainer SET Completed = '1' WHERE " +
@@ -416,6 +459,13 @@ namespace Scheduler
             return;
         }
 
+        /// <summary>
+        /// This method will locate a pre-existing Note using a 
+        /// known Note Title, and updates that Notes contents within
+        /// the SQL DB.
+        /// </summary>
+        /// <param name="NoteTitle"></param>
+        /// <param name="UpdatedContent"></param>
         public static void UpdateNoteEntry(string NoteTitle, string UpdatedContent)
         {
             string InsertIDLifeSpan = $"UPDATE NotesContainer SET NotesContent = '{UpdatedContent}'" +
@@ -430,7 +480,10 @@ namespace Scheduler
             return;
         }
 
-
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="Date"></param>
         public static void MarkCompletedEvents(string Date)
         {
             Stack<_Event> Events = GetEvents(Date);

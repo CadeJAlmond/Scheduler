@@ -3,6 +3,15 @@ using System.Data;
 
 namespace Scheduler
 {
+    // Author : Cade Almond
+    // Date   : 8/3/2022
+    //
+    // Class Contents 
+    // This class acts as a note book / scratch pad, where note pages
+    // can be entered into “book” (SQL). Note pages are displayed 
+    // into a book grid, when an entry is clicked on in the book, the 
+    // contents of that note are displayed in the form.These Note "Pages"
+    // are represented at Note objects, defined within the Note class.
     public partial class Notebook : Form
     {
         BackgroundWorker NotesThread = new BackgroundWorker();

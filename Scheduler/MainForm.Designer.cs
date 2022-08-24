@@ -94,6 +94,7 @@
             // 
             // MainDisplayForm
             // 
+            this.MainDisplayForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
             this.MainDisplayForm.Location = new System.Drawing.Point(447, 81);
             this.MainDisplayForm.Name = "MainDisplayForm";
             this.MainDisplayForm.Size = new System.Drawing.Size(2374, 1544);
