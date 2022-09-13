@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Scheduler
+﻿namespace Scheduler
 {
     // Author : Cade Almond
     // Date   : 8/8/2022
     //
     // Class Contents 
-    // This class is responsible for generating colors for the Events to
-    // display while presented on the Calendar form. These Colors are
-    // generated using two strategies, one is selecting a random color,
-    // and the other using color theory to select the best color in comparison
-    // to the most previous chosen color.
+    // This class is responsible for generating colors for the
+    // Events to present while being displayed on the Calendar
+    // form. These Colors are generated using two strategies,
+    // one is selecting a random color, and the other using color
+    // theory to select the best color in comparison to the most
+    // previous chosen color for an event in a specific month.
+
     public static class ColorHandle
     {
+
+        // ###-------------------        ColorHandle Setup        -------------------###
+
        // Variable for random Color selection
        static private Random Ran = new Random();
 
@@ -24,15 +23,16 @@ namespace Scheduler
        private static Dictionary<string, string[]> Colors;
       
        // The Colors used in creating Events
-       static string[] Blues = {"#06b6d4", "#0ea5e9", "#0284c", 
+        static string[] Blues = {"#06b6d4", "#0ea5e9", "#0284c", 
             "#60a5fa","#22d3ee"};
-        static string[] Reds = { "#f87171", "#ef4444", "#dc2626",
+        static string[] Reds  = { "#f87171", "#ef4444", "#dc2626",
             "#bd3d43", "#d74545", "#e11d48"};
         static string[] Greens  = {"0d9488", "#10b981", "#22c55e",
-            "#4ade80" };
+            "#4ade80", "#88b91b", "#a8c919", "#d8fe6a", "#e9ff74" };
         static string[] Oranges = {"#ea580c", "#f97316", "#fb923c",
-            "#f59e0b"};
-        static string[] Yellows = { "#fde047", "#facc15", "#eab308" };
+            "#f59e0b", "#ffc780", "#f9d684"};
+        static string[] Yellows = { "#fde047", "#facc15", "#eab308",
+        "#fffa85"};
 
         // Setup the Data structures accordingly. All colors
         // returned from this class will have this format
@@ -42,11 +42,13 @@ namespace Scheduler
         {
             Colors = new Dictionary<string, string[]>();
             Colors.Add("Blue",Blues);
-            Colors.Add("Red",Reds);
+            Colors.Add("Red" ,Reds );
             Colors.Add("Yellow", Yellows);
             Colors.Add("Orange", Oranges);
-            Colors.Add("Green", Greens);
+            Colors.Add("Green" , Greens );
         }
+
+        // ###-------------------        Color Selection Logic        -------------------###
 
         /// <summary>
         /// This method will return a randomly selected Color
@@ -55,10 +57,10 @@ namespace Scheduler
         public static string FirstColorSelector() 
         { 
            string[] AllColors   = Colors.Keys.ToArray();  
-           int      ColorChoose = Ran.Next(0 ,AllColors.Length);
+           int      ColorChoose = Ran.Next(0, AllColors.Length);
            string   ColorType   = AllColors[ColorChoose];
            string[] ColorValues = Colors[ColorType];
-           int ValueIndex       = Ran.Next(0, ColorValues.Length);
+           int      ValueIndex  = Ran.Next(0, ColorValues.Length);
            return $"{ColorType.Substring(0, 1)}{ColorValues[ValueIndex]}"; 
         }
 

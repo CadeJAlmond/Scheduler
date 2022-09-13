@@ -111,18 +111,18 @@
             // 
             // SortByTable
             // 
-            this.SortByTable.ColumnCount = 5;
-            this.SortByTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.SortByTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.SortByTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.SortByTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.SortByTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.SortByTable.ColumnCount = 2;
+            this.SortByTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.SortByTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.SortByTable.Location = new System.Drawing.Point(88, 838);
             this.SortByTable.Name = "SortByTable";
             this.SortByTable.Padding = new System.Windows.Forms.Padding(1);
-            this.SortByTable.RowCount = 2;
-            this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.SortByTable.RowCount = 5;
+            this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.SortByTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.SortByTable.Size = new System.Drawing.Size(1529, 462);
             this.SortByTable.TabIndex = 7;
             // 
@@ -176,6 +176,7 @@
             this.EventNameTxtBox.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.EventNameTxtBox.Location = new System.Drawing.Point(1655, 427);
             this.EventNameTxtBox.Name = "EventNameTxtBox";
+            this.EventNameTxtBox.PlaceholderText = " Name";
             this.EventNameTxtBox.Size = new System.Drawing.Size(558, 47);
             this.EventNameTxtBox.TabIndex = 12;
             // 
@@ -186,6 +187,7 @@
             this.EventDescTxtBox.Location = new System.Drawing.Point(1655, 542);
             this.EventDescTxtBox.Multiline = true;
             this.EventDescTxtBox.Name = "EventDescTxtBox";
+            this.EventDescTxtBox.PlaceholderText = " Desc";
             this.EventDescTxtBox.Size = new System.Drawing.Size(558, 313);
             this.EventDescTxtBox.TabIndex = 13;
             // 
@@ -195,6 +197,7 @@
             this.CompletionDateTxtBx.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.CompletionDateTxtBx.Location = new System.Drawing.Point(1655, 938);
             this.CompletionDateTxtBx.Name = "CompletionDateTxtBx";
+            this.CompletionDateTxtBx.PlaceholderText = " YYYY/ MM/ DD";
             this.CompletionDateTxtBx.Size = new System.Drawing.Size(558, 47);
             this.CompletionDateTxtBx.TabIndex = 14;
             // 
@@ -204,6 +207,7 @@
             this.PriorityLvlTxtBox.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.PriorityLvlTxtBox.Location = new System.Drawing.Point(1655, 1066);
             this.PriorityLvlTxtBox.Name = "PriorityLvlTxtBox";
+            this.PriorityLvlTxtBox.PlaceholderText = " 0 - 10";
             this.PriorityLvlTxtBox.Size = new System.Drawing.Size(558, 47);
             this.PriorityLvlTxtBox.TabIndex = 15;
             // 
@@ -213,15 +217,15 @@
             this.DateFormatLbl.ForeColor = System.Drawing.Color.Gainsboro;
             this.DateFormatLbl.Location = new System.Drawing.Point(1930, 877);
             this.DateFormatLbl.Name = "DateFormatLbl";
-            this.DateFormatLbl.Size = new System.Drawing.Size(172, 41);
+            this.DateFormatLbl.Size = new System.Drawing.Size(206, 41);
             this.DateFormatLbl.TabIndex = 16;
-            this.DateFormatLbl.Text = "YY/MM/DD";
+            this.DateFormatLbl.Text = "YYYY/MM/DD";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 49.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(67)))));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(80)))));
             this.label2.Location = new System.Drawing.Point(199, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(897, 219);
@@ -232,7 +236,7 @@
             // 
             this.SORT.AutoSize = true;
             this.SORT.Font = new System.Drawing.Font("Segoe UI Semibold", 49.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.SORT.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(67)))));
+            this.SORT.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(80)))));
             this.SORT.Location = new System.Drawing.Point(199, 616);
             this.SORT.Name = "SORT";
             this.SORT.Size = new System.Drawing.Size(632, 219);

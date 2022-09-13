@@ -13,10 +13,13 @@ namespace Scheduler
     // 	1. Create Events
     // 	2. Mark Events as completed
     // 	3. Filter which Events are being displayed.
-    // This class communicates with SQLHandle to read, create 
-    //  and update events.  
+    // This class communicates with SQLHandle to read and create
+    // events.  
     public partial class EventList : Form
     {
+
+        // ###-------------------        Page Setup        -------------------###
+
         public EventList()
         {
             InitializeComponent();
@@ -31,21 +34,39 @@ namespace Scheduler
             DisplaySQlInfo();
         }
 
+        // ###-------------------        UI Display        -------------------###
+
         /// <summary>
         /// This method will query SQL for all uncompleted events to
         /// display for the user
         /// </summary>
         private void DisplaySQlInfo() 
-        { 
-            Stack<_Event> ToDisplay = SQLHandle.ListUncompletedEvents();  
-            while(ToDisplay.Count > 0) 
+        {
+            // Fill Upcoming Events Grid
+            bool GetCompletedEvents;
+            Stack<_Event> DisplayEvents = SQLHandle.GetDisplayEvents
+                (GetCompletedEvents = false);  
+            while(DisplayEvents.Count > 0) 
             {
-                _Event DisplayEvent = ToDisplay.Pop();
-                EventDisplay EventUI = new EventDisplay();
-                EventUI.Display(DisplayEvent);
+                _Event       EventInfo = DisplayEvents.Pop();
+                EventDisplay EventUI   = new EventDisplay();
+                EventUI.Display(EventInfo);
                 UpcomingEventsTable.Controls.Add(EventUI);
             }
+
+            // Fill Sorted Events Gird
+            DisplayEvents = SQLHandle.GetDisplayEvents
+                (GetCompletedEvents = true);
+            while (DisplayEvents.Count > 0)
+            {
+                _Event       EventInfo = DisplayEvents.Pop();
+                EventDisplay EventUI     = new EventDisplay();
+                EventUI.DisplayCompletedEvent(EventInfo);
+                SortByTable.Controls.Add(EventUI);
+            }
         }
+
+        // ###-------------------        Event Creation        -------------------###
 
         /// <summary>
         /// This method is responsible for reading and evaluating the
@@ -56,27 +77,14 @@ namespace Scheduler
         private void AddEventBtn_Click(object sender, EventArgs e)
         {
             // Checks the Data entered from the Date field
-            if (!ValidDateFormat(out int _Case))
+            if (!ValidDateFormat(out int CaseNumber))
             {
-                if (_Case == 1)
-                {
-                    MessageBox.Show("Please fill relevant data fields");
-                    return;
-                }
-                if (_Case == 2)
-                {
-                    MessageBox.Show("Invalid Date entered. Please try again.");
-                    return;
-                }
-                if (_Case == 3)
-                {
-                    MessageBox.Show("Please enter Date using yy-mm-dd format");
-                    return;
-                }
+                DisplayErrorMsg(CaseNumber);
+                return;
             }
-            if (SQLHandle.AlreadyHasEvent("hi") == true) 
+            if (SQLHandle.AlreadyHasEvent(EventNameTxtBox.Text, CompletionDateTxtBx.Text)) 
             {
-                MessageBox.Show("This Event has already been added to SQL. Please try again.");
+                MessageBox.Show("An Event with this name already exists within this month. Please try again.");
                 return;
             }
             // If no priority level is estalibshed, set prio as 0 otherwise dont change it
@@ -85,7 +93,7 @@ namespace Scheduler
 
             // Insert Data into SQL 
             SQLHandle.InsertEvent(EventNameTxtBox.Text, EventDescTxtBox.Text,
-                                  CompletionDateTxtBx.Text, ePrio );
+                                  RemoveEmptyChars(CompletionDateTxtBx.Text), ePrio );
             // Clear input fields
             PriorityLvlTxtBox.Text = EventNameTxtBox.Text = 
                 EventDescTxtBox.Text = CompletionDateTxtBx.Text = " ";
@@ -95,6 +103,31 @@ namespace Scheduler
             DisplaySQlInfo();
         }
 
+        private void DisplayErrorMsg(int CaseNumber) 
+        {
+            if(CaseNumber == 1)
+                MessageBox.Show("Please fill in the Event's name and enter a valid Completion Date");
+            else if (CaseNumber == 2)
+                MessageBox.Show("Please fill in the Event's name");
+            else if (CaseNumber == 3)
+                MessageBox.Show("Invalid Date entered. Please try again.");
+            else
+                MessageBox.Show("Please enter Date using YYYY/MM/DD format");
+            return ;
+        }
+
+        /// <summary>
+        /// Empty spaces contained within the CompletionDate text box
+        /// inputs will cause an error in SQL, thus these empty spaces
+        /// must be removed.
+        /// EX.
+        ///     Correct   Format: 2022/8/24
+        ///     Incorrect Format: 20 22/8/24
+        /// Thus, this method will protect the user from accidently 
+        /// crashing and incorrectly interacting with the program.
+        /// </summary>
+        /// <param name="ToUpdate"></param>
+        /// <returns></returns>
         private string RemoveEmptyChars(string ToUpdate)
         {
             StringBuilder Updated = new StringBuilder();
@@ -121,7 +154,9 @@ namespace Scheduler
 
             if (EventNameTxtBox.Text == "")
             {
-                Case = 1;
+                if(!DateFormat.IsMatch(Date))
+                    Case = 1;
+                Case = 2;
                 return false;
             }
             if (DateFormat.IsMatch(Date))
@@ -130,7 +165,8 @@ namespace Scheduler
                 string[] DateInfo = Date.Split('/');
                 return IsLegalDate(DateInfo[0], DateInfo[1], DateInfo[2]);
             }
-            Case = 2;
+            // Case = 2 means there was not a match with the Date Format
+            Case = 4;
             return false;
         }
 

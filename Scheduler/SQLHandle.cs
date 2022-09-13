@@ -18,6 +18,9 @@ namespace Scheduler
     // DB and displayed to the user.
     public class SQLHandle
     {
+
+        // ###-------------------        SQL Connection Setup        -------------------###
+
         private static readonly string ConnectionString;
 
         static SQLHandle()
@@ -41,6 +44,9 @@ namespace Scheduler
             }.ConnectionString;
         }
 
+        // ###-------------------        Inserting         -------------------###
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! UPDATE THIS METHOD HEADER
         ///</summary>
         /// This method will insert an event into an SQL DB table.
         /// An Event contains a name, decription, date for completion,
@@ -49,8 +55,8 @@ namespace Scheduler
         ///</summary>
         public static void InsertEvent(string eName, string eDesc, string eDueDate, string ePriority)
         {
-            eDueDate = FormatDate(eDueDate);
-            string eDate = GetDate(out string eSearch);
+            eDueDate = FormatDate(eDueDate, out string eSearch);
+            string eDate = GetDate();
             string eColor = OptimizeColor(eSearch);
             string InsertIDLifeSpan = "INSERT INTO EventContainer(EventName, EventDescription, " +
                          $"EventColor, EventPriority, EventCreationDate, EventDueDate, CalendarSearch," +
@@ -72,9 +78,11 @@ namespace Scheduler
         /// </summary>
         /// <param name="DateToFormat"></param>
         /// <returns></returns>
-        private static string FormatDate(string DateToFormat)
+        private static string FormatDate(string DateToFormat, out string eSearch)
         {
-            return DateToFormat.Replace('/', '-');
+            DateToFormat = DateToFormat.Replace('/', '-');
+            eSearch = DateToFormat.Substring(0, DateToFormat.LastIndexOf('-'));
+            return DateToFormat;
         }
 
         /// <summary>
@@ -85,13 +93,12 @@ namespace Scheduler
         /// </summary>
         /// <param name="eSearch"></param>
         /// <returns></returns>
-        private static string GetDate(out string eSearch)
+        private static string GetDate()
         {
             DateTime CurrentDate = DateTime.Now;
             int Month = CurrentDate.Month;
-            int Year = CurrentDate.Year;
-            int Day = CurrentDate.Day;
-            eSearch = $"{Year}-{Month}";
+            int Year  = CurrentDate.Year;
+            int Day   = CurrentDate.Day;
             return $"{Year}-{Month}-{Day}";
         }
 
@@ -146,9 +153,9 @@ namespace Scheduler
         /// <param name="nTitle"></param>
         /// <param name="nContent"></param>
         /// <param name="eConnection"></param>
-        public static void InsertNotes(string nTitle, string nContent, string eConnection)
+        public static void InsertNote(string nTitle, string nContent, string eConnection)
         {
-            string nDate = GetDate(out string UnneededInfo);
+            string nDate = GetDate();
             string InsertIDLifeSpan = "INSERT INTO NotesContainer(NotesTitle, NotesContent, " +
                 $"NotesDate) VALUES('{nTitle}', '{nContent}', '{nDate}')";
             SqlCommand InsertCommand;
@@ -160,67 +167,23 @@ namespace Scheduler
             }
         }
 
-        /// <summary>
-        /// This method is responsible for removing Note entries
-        /// from the SQL DB given a Notes name and the notes content.
-        /// </summary>
-        /// <param name="nTitle"></param>
-        /// <param name="nContent"></param>
-        public static void DeleteNote(string nTitle, string nContent)
-        {
-            string InsertIDLifeSpan = $"DELETE FROM NotesContainer WHERE CONVERT(VARCHAR, " +
-                $"NotesTitle) ='{nTitle}' AND NotesContent LIKE '{nContent}'";
-            SqlCommand InsertCommand;
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
-                InsertCommand.ExecuteNonQuery();
-            }
-            return;
-        }
+        // ###-------------------        Searching        -------------------###
+
+        // ###-----------  Load Enteries
 
         /// <summary>
         /// Returns a Stack containting Events which have been completed
         /// by the user inside of the SQL DB
         /// </summary>
         /// <returns></returns>
-        public static Stack<_Event> ListCompletedEvents()
+        public static Stack<_Event> GetDisplayEvents(bool IsCompleted)
         {
             Stack<_Event> EventList = new Stack<_Event>();
             string eTitle, eDate, eDesc, eColor, ePrio;
-            string GetEvents = ("SELECT TOP (10) * FROM EventContainer WHERE Completed = 1 ORDER BY EventCreationDate");
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                using (SqlCommand command = new SqlCommand(GetEvents, con))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            eTitle = reader["EventName"].ToString();
-                            eColor = reader["EventColor"].ToString();
-                            eDate = reader["EventDueDate"].ToString();
-                            ePrio = reader["EventPriority"].ToString();
-                            eDesc = reader["EventDescription"].ToString();
-                            EventList.Push(new _Event(eTitle, eColor, eDesc, eDate, ePrio));
-                        }
-                    }
-                }
-            }
-            return EventList;
-        }
-
-        /// <summary>
-        /// Returns a Stack containting Events which have been uncompleted
-        /// by the user inside of the SQL DB
-        /// </summary>
-        public static Stack<_Event> ListUncompletedEvents()
-        {
-            Stack<_Event> EventList = new Stack<_Event>();
-            string eTitle, eDate, eDesc, eColor, ePrio;
-            string GetEvents = ("SELECT TOP (10) * FROM EventContainer WHERE Completed = 0 ORDER BY EventCreationDate");
+            // If we are looking for completed events, CompletionVal = 1, else = 0
+            int CompletionValue = IsCompleted ? 1 : 0;
+            string GetEvents = "SELECT TOP (10) * FROM EventContainer WHERE Completed =" +
+                $"{CompletionValue}  ORDER BY EventCreationDate";
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
@@ -263,82 +226,13 @@ namespace Scheduler
                         {
                             nTitle   = reader["NotesTitle"].ToString();
                             nContent = reader["NotesContent"].ToString();
-                            nDate = reader["NotesDate"].ToString();
+                            nDate    = reader["NotesDate"].ToString();
                             Notes.Push(new Note(nTitle, nContent, nDate));
                         }
                     }
                 }
             }
             return Notes;
-        }
-
-        /// <summary>
-        /// This method is used to locate if any Events exist within a 
-        /// given Year-Month timeframe given the Date to search, in the 
-        /// SQL DB.
-        /// </summary>
-        /// <param name="DateToSearch"></param>
-        /// <returns></returns>
-        public static bool HasEvent(string DateToSearch)
-        {
-            string SearchForDate = $"SELECT * FROM EventContainer WHERE EventDueDate ='{DateToSearch}'";
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                using (SqlCommand command = new SqlCommand(SearchForDate, con))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        return reader.HasRows;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// This method will check is a note exists within the SQL
-        /// DB with the given Note Title name. 
-        /// </summary>
-        /// <param name="_NoteTitle"></param>
-        /// <returns></returns>
-        public static bool HasNote(string _NoteTitle)
-        {
-            string SearchForDate = $"SELECT * FROM NotesContainer WHERE " +
-                $"CONVERT(VARCHAR, NotesTitle) ='{_NoteTitle}'";
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                using (SqlCommand command = new SqlCommand(SearchForDate, con))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        return reader.HasRows;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="EName"></param>
-        /// <returns></returns>
-        public static bool AlreadyHasEvent(string EName)
-        {
-            // SHOULD ADD A DESC, CREATION DATE, AND DUEDATE TO THIS!
-            string SearchForDate = $"SELECT * FROM EventContainer WHERE CONVERT(VARCHAR, " +
-                $"EventName) ='{EName}'";
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                using (SqlCommand command = new SqlCommand(SearchForDate, con))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        return reader.HasRows;
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -437,6 +331,78 @@ namespace Scheduler
             return LastEvent = new _Event(eTitle, eColor, eDesc, eDate, ePrio);
         }
 
+        // ###-----------  Check for Enteries
+
+        /// <summary>
+        /// This method will check is a note exists within the SQL
+        /// DB with the given Note Title name. 
+        /// </summary>
+        /// <param name="_NoteTitle"></param>
+        /// <returns></returns>
+        public static bool HasNote(string _NoteTitle)
+        {
+            string SearchForDate = $"SELECT * FROM NotesContainer WHERE " +
+                $"CONVERT(VARCHAR, NotesTitle) ='{_NoteTitle}'";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(SearchForDate, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        return reader.HasRows;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="EName"></param>
+        /// <returns></returns>
+        public static bool AlreadyHasEvent(string EName, string EDate)
+        {
+            FormatDate(EDate, out string _EDate);
+            string SearchForDate = $"SELECT * FROM EventContainer WHERE CONVERT(VARCHAR, " +
+                $"EventName) ='{EName}' AND CONVERT(VARCHAR, CalendarSearch) = '{_EDate}'";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(SearchForDate, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        return reader.HasRows;
+                    }
+                }
+            }
+        }
+
+        // ###-------------------        Deleting         -------------------###
+
+        /// <summary>
+        /// This method is responsible for removing Note entries
+        /// from the SQL DB given a Notes name and the notes content.
+        /// </summary>
+        /// <param name="nTitle"></param>
+        /// <param name="nContent"></param>
+        public static void DeleteNote(string nTitle, string nContent)
+        {
+            string InsertIDLifeSpan = $"DELETE FROM NotesContainer WHERE NotesTitle" +
+                $" LIKE '{nTitle}' AND NotesContent LIKE '{nContent}'";
+            SqlCommand InsertCommand;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
+                InsertCommand.ExecuteNonQuery();
+            }
+            return;
+        }
+
+        // ###-------------------        Updating         -------------------###
+
         /// <summary>
         /// This method will locate a pre-existing Event using a
         /// known Event Name, and DueDate, and will mark it as
@@ -478,23 +444,6 @@ namespace Scheduler
                 InsertCommand.ExecuteNonQuery();
             }
             return;
-        }
-
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="Date"></param>
-        public static void MarkCompletedEvents(string Date)
-        {
-            Stack<_Event> Events = GetEvents(Date);
-            while(Events.Count > 0) 
-            { 
-                _Event CheckDate = Events.Pop();
-                int DayInMonth = int.Parse(CheckDate.Date.Substring(0, 2));
-                int CurrentDay = int.Parse(Date.Substring(0, 3));
-                if (DayInMonth > CurrentDay)
-                    UpdateEvent(CheckDate.Name, CheckDate.Date);
-            }
         }
     }
 }

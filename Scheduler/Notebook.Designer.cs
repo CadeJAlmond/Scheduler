@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.NoteBookGallery = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.NoteTitleTxtBox = new System.Windows.Forms.TextBox();
@@ -51,21 +54,39 @@
             this.NoteBookGallery.AllowUserToResizeColumns = false;
             this.NoteBookGallery.AllowUserToResizeRows = false;
             this.NoteBookGallery.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.NoteBookGallery.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(254)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(254)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.NoteBookGallery.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.NoteBookGallery.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.CornflowerBlue;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.NoteBookGallery.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(254)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.CornflowerBlue;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(254)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.NoteBookGallery.DefaultCellStyle = dataGridViewCellStyle6;
             this.NoteBookGallery.GridColor = System.Drawing.SystemColors.Control;
             this.NoteBookGallery.Location = new System.Drawing.Point(145, 358);
             this.NoteBookGallery.Name = "NoteBookGallery";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(254)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(254)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.NoteBookGallery.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.NoteBookGallery.RowHeadersVisible = false;
             this.NoteBookGallery.RowHeadersWidth = 102;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(254)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.NoteBookGallery.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.NoteBookGallery.RowTemplate.Height = 49;
             this.NoteBookGallery.Size = new System.Drawing.Size(411, 768);
             this.NoteBookGallery.TabIndex = 0;
@@ -85,6 +106,7 @@
             // NoteTitleTxtBox
             // 
             this.NoteTitleTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.NoteTitleTxtBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NoteTitleTxtBox.Font = new System.Drawing.Font("Segoe UI", 11.1F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
             this.NoteTitleTxtBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.NoteTitleTxtBox.Location = new System.Drawing.Point(864, 228);
@@ -97,6 +119,7 @@
             // NoteMsgTxtBox
             // 
             this.NoteMsgTxtBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.NoteMsgTxtBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NoteMsgTxtBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.NoteMsgTxtBox.Location = new System.Drawing.Point(864, 358);
             this.NoteMsgTxtBox.Multiline = true;
@@ -193,7 +216,7 @@
             this.NOTES.AutoSize = true;
             this.NOTES.BackColor = System.Drawing.Color.Transparent;
             this.NOTES.Font = new System.Drawing.Font("Segoe UI Semibold", 49.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.NOTES.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(67)))));
+            this.NOTES.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(80)))));
             this.NOTES.Location = new System.Drawing.Point(221, 33);
             this.NOTES.Name = "NOTES";
             this.NOTES.Size = new System.Drawing.Size(831, 219);

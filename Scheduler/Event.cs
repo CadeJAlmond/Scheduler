@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Scheduler
+﻿namespace Scheduler
 {
     // Author : Cade Almond
     // Date   : 8/3/2022
@@ -13,8 +7,9 @@ namespace Scheduler
     // This class stimulates an event, defined as an activity, goal or event 
     // which the user hopes to be involved in, or accomplish by a specific 
     // date. These events are created in the EventList with the aid of the
-    // SQLHandle, and ColorHandle, displayed in both the Calendar and
+    // SQLHandle and ColorHandle, displayed in both the Calendar and
     // Eventlist app.  
+
     public class _Event
     {
         public string Name { get; set; }

@@ -6,12 +6,15 @@
     // an event as completed within the program. In this way, the
     // user may classify different events in multiple ways for
     // organizational purposes.
+
     public partial class EventDisplay : UserControl
     {
         public EventDisplay()
         {
             InitializeComponent();
         }
+
+        // ###-------------------        UI Display        -------------------###
 
         /// <summary>
         /// Display the information of the given event, and place 
@@ -24,6 +27,13 @@
         {
             EventDateBtnLbl.Text  = ToDisplay.Date;
             EventTitle.Text       = ToDisplay.Name; 
+        }
+
+        public void DisplayCompletedEvent(_Event ToDisplay) 
+        {
+            EventDateBtnLbl.Text      = ToDisplay.Date;
+            EventDateBtnLbl.ForeColor = Color.White;
+            EventTitle.Text      = ToDisplay.Name;
         }
 
         /// <summary>

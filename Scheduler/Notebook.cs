@@ -9,11 +9,16 @@ namespace Scheduler
     // Class Contents 
     // This class acts as a note book / scratch pad, where note pages
     // can be entered into “book” (SQL). Note pages are displayed 
-    // into a book grid, when an entry is clicked on in the book, the 
-    // contents of that note are displayed in the form.These Note "Pages"
-    // are represented at Note objects, defined within the Note class.
+    // into a book grid, when an entry is clicked on in the grid, the 
+    // contents of the selected note is displayed in the form.These
+    // Note "Pages" are represented at Note objects, defined within
+    // the Note class.
+
     public partial class Notebook : Form
     {
+
+        // ###-------------------        NoteBook Setup        -------------------###
+
         BackgroundWorker NotesThread = new BackgroundWorker();
         DataTable Notes;
         public Notebook()
@@ -40,6 +45,8 @@ namespace Scheduler
             NotesThread.RunWorkerAsync();
         }
 
+        // ###-------------------        UI Display        -------------------###
+
         /// <summary>
         /// Updates the page from information contained within the SQL DB.
         /// </summary>
@@ -50,8 +57,20 @@ namespace Scheduler
             while (ToAdd.Count > 0)
             {
                 Note NewNote = ToAdd.Pop();
+                checkNoteInfo( NewNote, "'", "%^`^%");
                 Notes.Rows.Add(NewNote.Name, NewNote.Content);
             }
+        }
+
+        void checkNoteInfo(Note checkNote, string UpdateFormat, string IllegalContent) 
+        {
+            string NoteMsg, NoteName;
+            NoteMsg  = checkNote.Content;
+            NoteName = checkNote.Name;
+            if (NoteMsg.Contains(IllegalContent))
+                checkNote.Content = NoteMsg .Replace(IllegalContent, UpdateFormat);
+            if(NoteName.Contains(IllegalContent))
+                checkNote.Name    = NoteName.Replace(IllegalContent, UpdateFormat);
         }
 
         /// <summary>
@@ -65,6 +84,18 @@ namespace Scheduler
         }
 
         /// <summary>
+        /// This method will update the Dislay title while the
+        /// Note title is being typed. This method is for aesthetic
+        /// affect.
+        /// </summary>
+        private void NoteTitleTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            NoteTitleLbl.Text = NoteTitleTxtBox.Text;
+        }
+
+        // ###-------------------        Sql Note Managment        -------------------###
+
+        /// <summary>
         /// This method is responsible for gathering data to send
         /// to the SQL DB to be saved. 
         /// </summary>
@@ -73,15 +104,17 @@ namespace Scheduler
             // Check input fields
             if (IncompletelInput()) 
             {
-                MessageBox.Show("Plesse write into Title or Content fields");
+                MessageBox.Show("Plesse write into note Title or Content text fields");
                 return;
-            } 
+            }
             // Gather Note Data
-            string NoteTitle = NoteTitleTxtBox.Text;
-            string NoteMsg   = NoteMsgTxtBox.Text;
+            Note ToAdd = new Note(NoteTitleTxtBox.Text, NoteMsgTxtBox.Text, "");
+            checkNoteInfo(ToAdd, "%^`^%", "'");
+            string NoteTitle = ToAdd.Name;
+            string NoteMsg   = ToAdd.Content;
             // Communicate to SQL
-            if (!SQLHandle.HasNote(NoteTitle))
-                SQLHandle.InsertNotes(NoteTitle, NoteMsg, "");
+            if (!SQLHandle.HasNote(ToAdd.Name))
+                SQLHandle.InsertNote(NoteTitle, NoteMsg, "");
             else
                 SQLHandle.UpdateNoteEntry(NoteTitle, NoteMsg);
             // Display to UI
@@ -134,19 +167,9 @@ namespace Scheduler
             if (Index > -1)
             {
                 NoteTitleTxtBox.Text = Notes.Rows[Index].ItemArray[0].ToString();
-                NoteTitleLbl.Text    = Notes.Rows[Index].ItemArray[0].ToString();
+                NoteTitleLbl .Text   = Notes.Rows[Index].ItemArray[0].ToString();
                 NoteMsgTxtBox.Text   = Notes.Rows[Index].ItemArray[1].ToString();
             }
-        }
-
-        /// <summary>
-        /// This method will update the Dislay title while the
-        /// Note title is being typed. This method is for aesthetic
-        /// affect.
-        /// </summary>
-        private void NoteTitleTxtBox_TextChanged(object sender, EventArgs e)
-        {
-            NoteTitleLbl.Text = NoteTitleTxtBox.Text;
         }
     }
 }

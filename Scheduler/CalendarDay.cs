@@ -1,13 +1,19 @@
 ﻿namespace Scheduler
 {
+    // Author : Cade Almond
+    // Date   : 8/14/2022
+    //
     // Class Contents
     // This class represents a day in the Calendar form.
     // A day may posses an event which is too be displayed 
-    // within the larger Calendar enviroment. This calendar
+    // within the larger Calendar environment. This calendar
     // day will display the Day, and any events which
     // corresponde to that specific day in the month.
     public partial class CalendarDay : UserControl
     {
+
+        // ###-------------------        Calender Day Info Setup        -------------------###
+
         System.Drawing.Color DisplayColor;
         public CalendarDay()
         {
@@ -26,6 +32,12 @@
             ClearDisplay();
         }
 
+        /// <summary>
+        /// This method will clear any changes made to the previous
+        /// Calendar day that would show any indications of an event
+        /// occuring, since AddDayLabel was called we know no
+        /// Events occur on this day in the current month.
+        /// </summary>
         private void ClearDisplay() 
         {
             // Make the Calendar day invisible if this day is not apart of the
@@ -36,6 +48,7 @@
             // Redraw the background if it was made invisible previously
             else
                 BackColor = System.Drawing.Color.FromArgb(27, 27, 27);
+
             // Since AddDayLabel was called, no events are to be shown
             EventColorPanel1.Visible = false;
             EventColorPanel2.Visible = false;
@@ -59,6 +72,8 @@
                    DisplayColor  = System.Drawing.ColorTranslator
                 .FromHtml($"{EColor.Substring(1, EColor.Length - 1)}");
             // Update UI
+            DayLabel.Text = DisplayDay;
+            BackColor = System.Drawing.Color.FromArgb(27, 27, 27);
             switch (EventList.Count()) 
             {
                 case 0:
@@ -115,6 +130,8 @@
             UpdateSecondEvent(EventToDisplay1, EventToDisplay2);
             // Update to include the Number of events not being displayed
             string UpdateEventLbl = EventLabel2.Text.ToString();
+            if(UpdateEventLbl.Length > 13)
+                   UpdateEventLbl = UpdateEventLbl.Substring(13, UpdateEventLbl.Length);
             EventLabel2.Text = $"{UpdateEventLbl} +{RestOfEvents} More Events";
         }
 

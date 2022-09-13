@@ -7,33 +7,39 @@ namespace Scheduler
         string NBF = "NoteBookForm";
         string CF  = "CalendarForm";
         string EF  = "EventForm";
+
+        EventList EventForm    = new EventList();
+        Notebook  NoteBookForm = new Notebook();
+        Calendar  CalendarForm = new Calendar();
+
         public MainForm()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// The starting application will display the EventForm once
-        /// it starts
+        /// The starting application will display the EventList Form once
+        /// it begins
         /// </summary>
         private void MainForm_Load(object sender, EventArgs e)
         {
             CurrentForm[0] = EF;
-            MainDisplayNewForm(new EventList());
+            AddMainDisplayForm(EventForm);
         }
 
         /// <summary>
-        /// This method will display the navigated form that the user requested
+        /// This method will display the navigated form that the user has 
+        /// requested
         /// </summary>
         /// <param name="SelectedForm"></param>
-        private void MainDisplayNewForm(object SelectedForm) 
+        private void AddMainDisplayForm(object SelectedForm) 
         { 
-            Form _Form     = SelectedForm as Form;
-            _Form.TopLevel = false;
-            _Form.Dock     = DockStyle.Fill;
+            Form Display     = SelectedForm as Form;
+            Display.TopLevel = false;
+            Display.Dock     = DockStyle.Fill;
             MainDisplayForm.Controls.Clear();
-            MainDisplayForm.Controls.Add  (_Form);
-            _Form.Show();
+            MainDisplayForm.Controls.Add  (Display);
+            Display.Show();
         }
 
         /// <summary>
@@ -43,23 +49,23 @@ namespace Scheduler
         private void CheckIfCurrentForm(string NavigatedForm, Form _Form) 
         {
             if (CurrentForm[0] != NavigatedForm)
-                MainDisplayNewForm(_Form);
+                AddMainDisplayForm(_Form);
             CurrentForm[0] = NavigatedForm; 
         }
 
         private void EventNavigationBtn_Click(object sender, EventArgs e)
         {
-            CheckIfCurrentForm(EF, new EventList());
+            CheckIfCurrentForm(EF, EventForm);
         }
 
         private void CalendarNavigationBtn_Click(object sender, EventArgs e)
         {
-            CheckIfCurrentForm(CF, new Calendar());
+            CheckIfCurrentForm(CF, CalendarForm);
         }
 
         private void NoteBNavigationBtn_Click(object sender, EventArgs e)
         {
-            CheckIfCurrentForm(NBF, new Notebook());
+            CheckIfCurrentForm(NBF, NoteBookForm);
         }
     }
 }

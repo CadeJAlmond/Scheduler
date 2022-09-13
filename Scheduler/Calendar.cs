@@ -8,13 +8,15 @@ namespace Scheduler
     // Class Contents 
     // This class stimulates the real life use of a Calendar. 
     // More specifically, this class is responsible for constructing a GUI 
-    // Calendar, which will traverse through, and display information 
-    // regarding different months  and different years. This Calendar will 
-    // also display any events which  are set to be completed within the 
-    // given month.  
-    //
+    // Calendar, which will traverse through and display all information in
+    // regarding different months and different years. This Calendar will 
+    // also display any events and its relevangt information, which are
+    // planned to be completed within the given month.  
+    
     public partial class Calendar : Form
     {
+
+        // ###-------------------        Calendar Setup        -------------------###
 
         // Values for Calendar navigation
         int Day, Month, Year, GridIndex;
@@ -50,15 +52,7 @@ namespace Scheduler
                 CalendarThread.RunWorkerAsync();
         }
 
-        /// <summary>
-        ///  This method is responsible for placing the UI elements, and 
-        ///  calculating month information, and placing information into
-        ///  the application
-        /// </summary>
-        private void CalendarThread_DoWork(object? sender, DoWorkEventArgs e)
-        {
-            DisplayMonth(Month, Year);
-        }
+        // ###-------------------        Calendar UI Display        -------------------###
 
         /// <summary>
         /// This method is responsible for directly modifying the Calendar.
@@ -73,18 +67,33 @@ namespace Scheduler
         /// </summary>
         public void CalendarThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            CalendarDay NewDay = new CalendarDay();
-            if (e.ProgressPercentage == 0)
-                (CalendarGrid.Controls[GridIndex++] as CalendarDay).AddDayLabel(" ");
-            else if (e.ProgressPercentage == 100)
-                CalendarMonth.Text = $"{Month}: {Months[Month - 1]} {Year}";
-            else
+            // For some reason the 43's index can be reached, thus a try-catch is needed
+            try
             {
-                if(EventList.Contains((Day).ToString()))
-                    (CalendarGrid.Controls[GridIndex++] as CalendarDay).DisplayEvents(Day++.ToString(), $"{Year}-{Month}-{Day - 1}");
+                if (e.ProgressPercentage == 0)
+                    (CalendarGrid.Controls[GridIndex++] as CalendarDay).AddDayLabel(" ");
+                else if (e.ProgressPercentage == 100)
+                    CalendarMonth.Text = $"{Month}: {Months[Month - 1]} {Year}";
                 else
-                    (CalendarGrid.Controls[GridIndex++] as CalendarDay).AddDayLabel(Day++.ToString());
-            }
+                {
+                    if (EventList.Contains((Day).ToString()))
+                        (CalendarGrid.Controls[GridIndex++] as CalendarDay).DisplayEvents(Day++.ToString(), $"{Year}-{Month}-{Day - 1}");
+                    else
+                        (CalendarGrid.Controls[GridIndex++] as CalendarDay).AddDayLabel(Day++.ToString());
+                }
+            } catch {}
+        }
+
+        // ###-------------------        Processing Calendar Logic        -------------------###
+
+        /// <summary>
+        ///  This method is responsible for placing the UI elements, and 
+        ///  calculating month information, and placing information into
+        ///  the application
+        /// </summary>
+        private void CalendarThread_DoWork(object? sender, DoWorkEventArgs e)
+        {
+            DisplayMonth(Month, Year);
         }
 
         /// <summary>
@@ -104,6 +113,9 @@ namespace Scheduler
             // Find the amount of padding days to position the starting day of the month correctly
             int PlaceHolderDays = Convert.ToInt32(FirstDay.DayOfWeek.ToString("d")) - 1;
 
+            // Find amount of days to clear the end of the month days
+            int EndOfCalendarDays = 42 - (PlaceHolderDays + DaysInMonth);
+
             // Place Empty Days
             bool EmptyDaysToAdd = PlaceHolderDays > 0;
             while (EmptyDaysToAdd)
@@ -122,7 +134,14 @@ namespace Scheduler
                 CalendarThread.ReportProgress(1);
                 DaysToAdd = --DaysInMonth > 0;
             }
-
+            
+            // Clear end of the Calendar month
+            bool EndOfCalendarClear = EndOfCalendarDays > 0;
+            while (EndOfCalendarClear) 
+            {
+                CalendarThread.ReportProgress(0);
+                EndOfCalendarClear = (--EndOfCalendarDays > 0);
+            }
             CalendarThread.ReportProgress(100);
         }
 
@@ -165,8 +184,9 @@ namespace Scheduler
         /// </summary>
         private void PrevBtn_Click_1(object sender, EventArgs e)
         {
+            bool GoNextMonth;
             if (!CalendarThread.IsBusy)
-                UpdateMonth(false, Day = 1, GridIndex = 0); 
+                UpdateMonth(GoNextMonth = false, Day = 1, GridIndex = 0); 
         }
 
         /// <summary>
@@ -175,8 +195,9 @@ namespace Scheduler
         /// </summary>
         private void NextBtn_Click_1(object sender, EventArgs e)
         {
+            bool GoNextMonth;
             if (!CalendarThread.IsBusy)
-                UpdateMonth(true, Day = 1, GridIndex = 0); 
+                UpdateMonth(GoNextMonth = true, Day = 1, GridIndex = 0); 
         }
     }
 }

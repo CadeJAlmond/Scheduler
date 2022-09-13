@@ -489,7 +489,7 @@
             // 
             this.PrevBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PrevBtn.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.PrevBtn.Location = new System.Drawing.Point(1712, 121);
+            this.PrevBtn.Location = new System.Drawing.Point(1741, 124);
             this.PrevBtn.Name = "PrevBtn";
             this.PrevBtn.Size = new System.Drawing.Size(180, 58);
             this.PrevBtn.TabIndex = 2;
@@ -501,7 +501,7 @@
             // 
             this.NextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.NextBtn.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.NextBtn.Location = new System.Drawing.Point(1908, 121);
+            this.NextBtn.Location = new System.Drawing.Point(1944, 124);
             this.NextBtn.Name = "NextBtn";
             this.NextBtn.Size = new System.Drawing.Size(179, 58);
             this.NextBtn.TabIndex = 1;
@@ -591,7 +591,7 @@
             this.CalendarMonth.AutoSize = true;
             this.CalendarMonth.Font = new System.Drawing.Font("Segoe UI Semibold", 15.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.CalendarMonth.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.CalendarMonth.Location = new System.Drawing.Point(1016, 121);
+            this.CalendarMonth.Location = new System.Drawing.Point(95, 124);
             this.CalendarMonth.Name = "CalendarMonth";
             this.CalendarMonth.Size = new System.Drawing.Size(184, 68);
             this.CalendarMonth.TabIndex = 3;
@@ -602,8 +602,8 @@
             // 
             this.LargeCalendarLbl.AutoSize = true;
             this.LargeCalendarLbl.Font = new System.Drawing.Font("Segoe UI Semibold", 49.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.LargeCalendarLbl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(67)))));
-            this.LargeCalendarLbl.Location = new System.Drawing.Point(519, 38);
+            this.LargeCalendarLbl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(80)))));
+            this.LargeCalendarLbl.Location = new System.Drawing.Point(461, 25);
             this.LargeCalendarLbl.Name = "LargeCalendarLbl";
             this.LargeCalendarLbl.Size = new System.Drawing.Size(1240, 219);
             this.LargeCalendarLbl.TabIndex = 11;
