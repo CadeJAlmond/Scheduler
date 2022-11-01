@@ -43,9 +43,8 @@
             this.DayLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(146)))), ((int)(((byte)(60)))));
             this.DayLabel.Location = new System.Drawing.Point(44, 22);
             this.DayLabel.Name = "DayLabel";
-            this.DayLabel.Size = new System.Drawing.Size(69, 41);
+            this.DayLabel.Size = new System.Drawing.Size(0, 41);
             this.DayLabel.TabIndex = 0;
-            this.DayLabel.Text = "";
             // 
             // EventColorPanel1
             // 
@@ -96,7 +95,7 @@
             this.Controls.Add(this.EventColorPanel1);
             this.Controls.Add(this.DayLabel);
             this.Name = "CalendarDay";
-            this.Size = new System.Drawing.Size(385, 250);
+            this.Size = new System.Drawing.Size(385, 259);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -46,29 +46,57 @@ namespace Scheduler
 
         // ###-------------------        Inserting         -------------------###
 
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! UPDATE THIS METHOD HEADER
-        ///</summary>
-        /// This method will insert an event into an SQL DB table.
-        /// An Event contains a name, decription, date for completion,
-        /// a priority level, and a color which will be displayed into 
-        /// forms such as the Calendar, and Eventlist.
-        ///</summary>
-        public static void InsertEvent(string eName, string eDesc, string eDueDate, string ePriority)
+        /// <summary>
+        /// A helper method which will execute a given command
+        /// </summary>
+        /// <param name="CommandMsg"></param>
+        private static void SQLExecuteCommand(string CommandMsg)
         {
-            eDueDate = FormatDate(eDueDate, out string eSearch);
-            string eDate = GetDate();
-            string eColor = OptimizeColor(eSearch);
-            string InsertIDLifeSpan = "INSERT INTO EventContainer(EventName, EventDescription, " +
-                         $"EventColor, EventPriority, EventCreationDate, EventDueDate, CalendarSearch," +
-                         $" Completed) VALUES('{eName}', '{eDesc}', '{eColor}', {ePriority}, '{eDate}', " +
-                         $"'{eDueDate}', '{eSearch}', 0)";
             SqlCommand InsertCommand;
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
-                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
+                InsertCommand = new SqlCommand(CommandMsg, con);
                 InsertCommand.ExecuteNonQuery();
             }
+        }
+
+        /// <summary>
+        /// A helper method which will check for enteries in
+        /// the Data-Base.
+        /// </summary>
+        /// <param name="CommandMsg"></param>
+        private static bool SQLCheckForEntry(string EntryToCheck)
+        {
+            bool ReturnGuard = false;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(EntryToCheck, con))
+                    using (SqlDataReader reader = command.ExecuteReader())
+                        while (reader.Read())
+                           return reader.HasRows;
+            }
+            return ReturnGuard;
+        }
+
+
+        ///</summary>
+        /// This method will insert an event into an Event Container.
+        /// An Event contains a name, decription, date for completion,
+        /// a priority level, creation date and a color which will be 
+        /// displayed into forms such as the Calendar and Eventlist.
+        ///</summary>
+        public static void InsertEvent(string eName, string eDesc, string eDueDate, string ePriority)
+        {
+            eDueDate = FormatDate(eDueDate, out string eSearch);
+            string eDate  = GetDate();
+            string eColor = OptimizeColor(eSearch);
+            string InsertEventInfo = "INSERT INTO EventContainer(EventName, EventDescription, " +
+                         $"EventColor, EventPriority, EventCreationDate, EventDueDate, CalendarSearch," +
+                         $" Completed) VALUES('{eName}', '{eDesc}', '{eColor}', {ePriority}, '{eDate}', " +
+                         $"'{eDueDate}', '{eSearch}', 0)";
+            SQLExecuteCommand(InsertEventInfo);
         }
 
         /// <summary>
@@ -95,11 +123,8 @@ namespace Scheduler
         /// <returns></returns>
         private static string GetDate()
         {
-            DateTime CurrentDate = DateTime.Now;
-            int Month = CurrentDate.Month;
-            int Year  = CurrentDate.Year;
-            int Day   = CurrentDate.Day;
-            return $"{Year}-{Month}-{Day}";
+            DateTime EventDateTime = DateTime.Now;
+            return   EventDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
 
         /// <summary>
@@ -127,21 +152,7 @@ namespace Scheduler
             string GetEvents = $"SELECT * FROM EventContainer WHERE CONVERT(VARCHAR," +
                 $" CalendarSearch) ='{Date}'";
             bool EventsInMonth = false;
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                using (SqlCommand command = new SqlCommand(GetEvents, con))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            return reader.HasRows;
-                        }
-                    }
-                }
-                return EventsInMonth;
-            }
+            return SQLCheckForEntry(GetEvents);
         }
 
         /// <summary>
@@ -156,15 +167,39 @@ namespace Scheduler
         public static void InsertNote(string nTitle, string nContent, string eConnection)
         {
             string nDate = GetDate();
-            string InsertIDLifeSpan = "INSERT INTO NotesContainer(NotesTitle, NotesContent, " +
+            string InsertNote = "INSERT INTO NotesContainer(NotesTitle, NotesContent, " +
                 $"NotesDate) VALUES('{nTitle}', '{nContent}', '{nDate}')";
-            SqlCommand InsertCommand;
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
-                InsertCommand.ExecuteNonQuery();
-            }
+            SQLExecuteCommand(InsertNote);
+        }
+
+        /// <summary>
+        /// This method will insert an Event into the Folder
+        /// Container.
+        /// </summary>
+        /// <param name="fName"></param>
+        /// <param name="eName"></param>
+        /// <param name="eDate"></param>
+        public static void InsertIntoFolder(string fName, string eName, string eDate)
+        {
+            string InsertToFolder = "INSERT INTO FolderContainer(FolderName, EventName, Event" +
+                                     $"DueDate) VALUES('{fName}', '{eName}', '{eDate}')";
+            SQLExecuteCommand(InsertToFolder);
+        }
+
+        /// <summary>
+        /// This method will insert a Note into the Folder
+        /// Container.
+        /// </summary>
+        /// <param name="fName"></param>
+        /// <param name="nTitle"></param>
+        public static void InsertIntoFolder(string fName, string nTitle)
+        {
+            bool JustInsertFolder = ( nTitle == "" );
+            if (JustInsertFolder)
+                nTitle = "&#xnewFold2$%";
+            string InsertToFolder = "INSERT INTO FolderContainer(FolderName, NotesTitle " +
+                                     $") VALUES('{fName}', '{nTitle}')";
+            SQLExecuteCommand(InsertToFolder);
         }
 
         // ###-------------------        Searching        -------------------###
@@ -178,6 +213,7 @@ namespace Scheduler
         /// <returns></returns>
         public static Stack<_Event> GetDisplayEvents(bool IsCompleted)
         {
+            // Can create a private helper method for this (getDisplayEvents) and GetEvents 
             Stack<_Event> EventList = new Stack<_Event>();
             string eTitle, eDate, eDesc, eColor, ePrio;
             // If we are looking for completed events, CompletionVal = 1, else = 0
@@ -207,7 +243,8 @@ namespace Scheduler
         }
 
         /// <summary>
-        /// 
+        /// This method will return Notes that exist within
+        /// the Notes Container which are ordered by their date.
         /// </summary>
         /// <returns></returns>
         public static Stack<Note> FindNotes()
@@ -241,13 +278,46 @@ namespace Scheduler
         /// <param name="SelectedMonth"></param>
         public static Stack<_Event> GetEvents(string DateToSearch)
         {
+            // Can create a private helper method for this (getDisplayEvents) and GetEvents 
             Stack<_Event> EventList = new Stack<_Event>();
-            string eTitle, eDate, eDesc, eColor, ePrio, SearchByDate;
+            string eTitle, eDate, eDesc, eColor, ePrio;
             string GetEvents = $"SELECT * FROM EventContainer WHERE EventDueDate ='{DateToSearch}'";
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
                 using (SqlCommand command = new SqlCommand(GetEvents, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            eTitle = reader["EventName"].ToString();
+                            eColor = reader["EventColor"].ToString();
+                            eDate = reader["EventDueDate"].ToString();
+                            ePrio = reader["EventPriority"].ToString();
+                            eDesc = reader["EventDescription"].ToString();
+                            EventList.Push(new _Event(eTitle, eColor, eDesc, eDate, ePrio));
+                        }
+                    }
+                }
+            }
+            return EventList;
+        }
+
+        /// <summary>
+        /// This helper method will return a Stack containing
+        /// Events that match the FindEvents command.
+        /// </summary>
+        /// <param name="FindEvents"></param>
+        /// <returns></returns>
+        private static Stack<_Event> LoadEvents(string FindEvents)
+        {
+            Stack<_Event> EventList = new Stack<_Event>();
+            string eTitle, eDate, eDesc, eColor, ePrio;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(FindEvents, con))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -305,6 +375,7 @@ namespace Scheduler
         /// <returns></returns>
         public static _Event GetLastEventInMonth(string DateToSearch)
         {
+            // Should try to use a helper method to use this, and getSelectedEvent
             _Event LastEvent;
             string eTitle, eDate, eDesc, eColor, ePrio;
             eTitle = eDate = eDesc = eColor = ePrio = "";
@@ -331,6 +402,165 @@ namespace Scheduler
             return LastEvent = new _Event(eTitle, eColor, eDesc, eDate, ePrio);
         }
 
+        /// <summary>
+        /// This method returns a Stack containing all the Folders that have been added
+        /// into the DB. These folders are indicated by having the NoteTitle as '&#xnewFold2$%'
+        /// </summary>
+        public static Stack<string> GetFolders()
+        {
+            string GetEvents = $"SELECT * FROM FolderContainer WHERE NotesTitle LIKE '&#xnewFold2$%'";
+            Stack<string> Folders = new Stack<string>();
+            string FolderName;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(GetEvents, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            FolderName = reader["FolderName"].ToString();
+                            Folders.Push(FolderName);
+                        }
+                    }
+                }
+            }
+            return Folders;
+        }
+
+        /// <summary>
+        /// Given a Foldername, this method will return all Events
+        /// which exist within that folder.
+        /// </summary>
+        /// <param name="FName"></param>
+        /// <returns></returns>
+        public static Stack<_Event> GetFolderEvents(string FName)
+        {
+            Stack<_Event> EventList = new Stack<_Event>();
+            string GetEvents = $"SELECT * FROM FolderContainer WHERE FolderName LIKE '{FName}' " +
+                               $" AND NotesTitle is NULL";
+            string EName, ESearchDate;
+            EName = ESearchDate = " ";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(GetEvents, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            EName = reader["EventName"].ToString();
+                            ESearchDate = reader["EventDueDate"].ToString();
+                            EventList.Push(new _Event(EName, "", "", ESearchDate, ""));
+                        }
+                    }
+                }
+            }
+            return EventList;
+        }
+
+        /// <summary>
+        /// Given a Foldername, this method will return all Notes
+        /// which exist within that folder.
+        /// </summary>
+        /// <param name="FName"></param>
+        /// <returns></returns>
+        public static Stack<string> GetFolderNotes(string FName)
+        {
+            string eName;
+            string GetEvents = $"SELECT * FROM FolderContainer WHERE FolderName LIKE '{FName}' " +
+                               $" AND EventName is NULL";
+            Stack<string> Folders = new Stack<string>();
+            string FolderName;
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(GetEvents, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            FolderName = reader["NotesTitle"].ToString();
+                            if(FolderName != "&#xnewFold2$%")
+                                Folders.Push(FolderName);
+                        }
+                    }
+                }
+            }
+            return Folders;
+        }
+
+        /// <summary>
+        /// Given a Notes name, this method will return a Notes
+        /// which exist within a FolderContainer and the NotesContainer.
+        /// </summary>
+        /// <param name="FName"></param>
+        /// <returns></returns>
+        public static Note getSelectedNote(string nName)
+        {
+            Note selectedN;
+            string nTitle, nContent, nDate;
+            nTitle = nContent = nDate = " ";
+            string getSelectedN = $"SELECT * FROM FolderContainer AS F JOIN NotesContainer AS " +
+                $"N ON N.NotesTitle LIKE F.NotesTitle WHERE F.NotesTitle LIKE '{nName}' ";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(getSelectedN, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            nTitle = reader["NotesTitle"].ToString();
+                            nContent = reader["NotesContent"].ToString();
+                            nDate = reader["NotesDate"].ToString();
+                        }
+                    }
+                }
+            }
+            return new Note(nTitle, nContent, nDate);
+        }
+
+
+        /// <summary>
+        /// Given a Events name and due date, this method will return 
+        /// the Event which exist within a FolderContainer and the 
+        /// EventContainer.
+        /// </summary>
+        /// <param name="FName"></param>
+        /// <returns></returns>
+        public static _Event getSelectedEvents(string eName, string eDueDate)
+        {
+            // Should try to use a helper method to use this, and GetLastEventInMonth
+            string eTitle, eDesc, eDate, ePrio, eColor;
+            eTitle = eDesc = eDate = ePrio = eColor = " ";
+            string getSelectedN = $"SELECT * FROM FolderContainer AS F JOIN EventContainer AS E ON E.EventName " +
+                $" LIKE F.EventName WHERE F.EventName LIKE '{eName}' AND E.CalendarSearch LIKE '{eDueDate}' ";
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand command = new SqlCommand(getSelectedN, con))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            eTitle = reader["EventName"].ToString();
+                            eColor = reader["EventColor"].ToString();
+                            eDate = reader["EventDueDate"].ToString();
+                            ePrio = reader["EventPriority"].ToString();
+                            eDesc = reader["EventDescription"].ToString();
+
+                        }
+                    }
+                }
+            }
+            return new _Event(eTitle, eColor, eDesc, eDate, ePrio);
+        }
         // ###-----------  Check for Enteries
 
         /// <summary>
@@ -343,21 +573,11 @@ namespace Scheduler
         {
             string SearchForDate = $"SELECT * FROM NotesContainer WHERE " +
                 $"CONVERT(VARCHAR, NotesTitle) ='{_NoteTitle}'";
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                using (SqlCommand command = new SqlCommand(SearchForDate, con))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        return reader.HasRows;
-                    }
-                }
-            }
+            return SQLCheckForEntry(SearchForDate);
         }
 
         /// <summary>
-        /// TODO
+        /// Checks if the Database contains this event
         /// </summary>
         /// <param name="EName"></param>
         /// <returns></returns>
@@ -365,18 +585,8 @@ namespace Scheduler
         {
             FormatDate(EDate, out string _EDate);
             string SearchForDate = $"SELECT * FROM EventContainer WHERE CONVERT(VARCHAR, " +
-                $"EventName) ='{EName}' AND CONVERT(VARCHAR, CalendarSearch) = '{_EDate}'";
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                using (SqlCommand command = new SqlCommand(SearchForDate, con))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        return reader.HasRows;
-                    }
-                }
-            }
+                $"EventName) ='{EName}' AND CONVERT(VARCHAR, CalendarSearch) = '{EDate}'";
+            return SQLCheckForEntry(SearchForDate);
         }
 
         // ###-------------------        Deleting         -------------------###
@@ -389,16 +599,9 @@ namespace Scheduler
         /// <param name="nContent"></param>
         public static void DeleteNote(string nTitle, string nContent)
         {
-            string InsertIDLifeSpan = $"DELETE FROM NotesContainer WHERE NotesTitle" +
+            string DeleteNote = $"DELETE FROM NotesContainer WHERE NotesTitle" +
                 $" LIKE '{nTitle}' AND NotesContent LIKE '{nContent}'";
-            SqlCommand InsertCommand;
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
-                InsertCommand.ExecuteNonQuery();
-            }
-            return;
+            SQLExecuteCommand(DeleteNote);
         }
 
         // ###-------------------        Updating         -------------------###
@@ -413,16 +616,9 @@ namespace Scheduler
         /// <param name="eDate"></param>
         public static void UpdateEvent(string eName, string eDate) 
         {
-            string InsertIDLifeSpan = "UPDATE EventContainer SET Completed = '1' WHERE " +
+            string UpdateEvent = "UPDATE EventContainer SET Completed = '1' WHERE " +
                 $"( CONVERT(VARCHAR, EventName) = '{eName}' AND EventDueDate = '{eDate}' )";
-            SqlCommand InsertCommand;
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
-                InsertCommand.ExecuteNonQuery();
-            }
-            return;
+            SQLExecuteCommand(UpdateEvent);
         }
 
         /// <summary>
@@ -434,16 +630,9 @@ namespace Scheduler
         /// <param name="UpdatedContent"></param>
         public static void UpdateNoteEntry(string NoteTitle, string UpdatedContent)
         {
-            string InsertIDLifeSpan = $"UPDATE NotesContainer SET NotesContent = '{UpdatedContent}'" +
+            string UpdateNoteEntry = $"UPDATE NotesContainer SET NotesContent = '{UpdatedContent}'" +
                 $" WHERE CONVERT(VARCHAR, NotesTitle) = '{NoteTitle}'";
-            SqlCommand InsertCommand;
-            using (SqlConnection con = new SqlConnection(ConnectionString))
-            {
-                con.Open();
-                InsertCommand = new SqlCommand(InsertIDLifeSpan, con);
-                InsertCommand.ExecuteNonQuery();
-            }
-            return;
+            SQLExecuteCommand(UpdateNoteEntry);
         }
     }
 }

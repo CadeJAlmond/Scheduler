@@ -57,20 +57,28 @@ namespace Scheduler
             while (ToAdd.Count > 0)
             {
                 Note NewNote = ToAdd.Pop();
-                checkNoteInfo( NewNote, "'", "%^`^%");
+                checkNoteInfo( NewNote, "'", "&#x2019");
                 Notes.Rows.Add(NewNote.Name, NewNote.Content);
             }
         }
 
-        void checkNoteInfo(Note checkNote, string UpdateFormat, string IllegalContent) 
+
+        /// <summary>
+        /// This method will check if a particular illegal string is 
+        /// contained within a note, which is to be passed into a 
+        /// database. If an illegal string which would crash a SQL 
+        /// command exists than we will replace the string with the 
+        /// UpdateFormat.
+        /// </summary>
+        void checkNoteInfo(Note CheckNote, string UpdateFormat, string IllegalContent) 
         {
             string NoteMsg, NoteName;
-            NoteMsg  = checkNote.Content;
-            NoteName = checkNote.Name;
+            NoteMsg  = CheckNote.Content;
+            NoteName = CheckNote.Name;
             if (NoteMsg.Contains(IllegalContent))
-                checkNote.Content = NoteMsg .Replace(IllegalContent, UpdateFormat);
+                CheckNote.Content = NoteMsg .Replace(IllegalContent, UpdateFormat);
             if(NoteName.Contains(IllegalContent))
-                checkNote.Name    = NoteName.Replace(IllegalContent, UpdateFormat);
+                CheckNote.Name    = NoteName.Replace(IllegalContent, UpdateFormat);
         }
 
         /// <summary>
@@ -109,7 +117,7 @@ namespace Scheduler
             }
             // Gather Note Data
             Note ToAdd = new Note(NoteTitleTxtBox.Text, NoteMsgTxtBox.Text, "");
-            checkNoteInfo(ToAdd, "%^`^%", "'");
+            checkNoteInfo(ToAdd, "&#x2019", "'");
             string NoteTitle = ToAdd.Name;
             string NoteMsg   = ToAdd.Content;
             // Communicate to SQL
@@ -147,7 +155,9 @@ namespace Scheduler
             NoteContent = Notes.Rows[SelectedCell].
                 ItemArray[1].ToString();
             // Communicate to SQL
-            SQLHandle.DeleteNote(NoteTitle, NoteContent);
+            Note ToDelete = new Note(NoteTitle, NoteContent, "");
+            checkNoteInfo(ToDelete, "&#x2019", "'");
+            SQLHandle.DeleteNote(ToDelete.Name, ToDelete.Content);
             // Update UI
             NotesThread.RunWorkerAsync();
             NoteTitleTxtBox.Clear();

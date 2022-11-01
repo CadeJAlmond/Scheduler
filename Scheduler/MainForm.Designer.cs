@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.NavigationPanel = new System.Windows.Forms.Panel();
+            this.FolderNavigationFormBtn = new System.Windows.Forms.Button();
             this.NoteBNavigationBtn = new System.Windows.Forms.Button();
             this.CalendarNavigationBtn = new System.Windows.Forms.Button();
             this.EventNavigationBtn = new System.Windows.Forms.Button();
@@ -40,6 +41,7 @@
             // NavigationPanel
             // 
             this.NavigationPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.NavigationPanel.Controls.Add(this.FolderNavigationFormBtn);
             this.NavigationPanel.Controls.Add(this.NoteBNavigationBtn);
             this.NavigationPanel.Controls.Add(this.CalendarNavigationBtn);
             this.NavigationPanel.Controls.Add(this.EventNavigationBtn);
@@ -48,10 +50,22 @@
             this.NavigationPanel.Size = new System.Drawing.Size(458, 1547);
             this.NavigationPanel.TabIndex = 0;
             // 
+            // FolderNavigationFormBtn
+            // 
+            this.FolderNavigationFormBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.FolderNavigationFormBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(88)))), ((int)(((byte)(180)))));
+            this.FolderNavigationFormBtn.Location = new System.Drawing.Point(101, 695);
+            this.FolderNavigationFormBtn.Name = "FolderNavigationFormBtn";
+            this.FolderNavigationFormBtn.Size = new System.Drawing.Size(235, 80);
+            this.FolderNavigationFormBtn.TabIndex = 3;
+            this.FolderNavigationFormBtn.Text = "Folder";
+            this.FolderNavigationFormBtn.UseVisualStyleBackColor = true;
+            this.FolderNavigationFormBtn.Click += new System.EventHandler(this.FolderNavigationFormBtn_Click);
+            // 
             // NoteBNavigationBtn
             // 
             this.NoteBNavigationBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.NoteBNavigationBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(146)))), ((int)(((byte)(60)))));
+            this.NoteBNavigationBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(88)))), ((int)(((byte)(180)))));
             this.NoteBNavigationBtn.Location = new System.Drawing.Point(101, 569);
             this.NoteBNavigationBtn.Name = "NoteBNavigationBtn";
             this.NoteBNavigationBtn.Size = new System.Drawing.Size(236, 81);
@@ -63,7 +77,7 @@
             // CalendarNavigationBtn
             // 
             this.CalendarNavigationBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CalendarNavigationBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(146)))), ((int)(((byte)(60)))));
+            this.CalendarNavigationBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(88)))), ((int)(((byte)(180)))));
             this.CalendarNavigationBtn.Location = new System.Drawing.Point(101, 448);
             this.CalendarNavigationBtn.Name = "CalendarNavigationBtn";
             this.CalendarNavigationBtn.Size = new System.Drawing.Size(236, 81);
@@ -75,7 +89,7 @@
             // EventNavigationBtn
             // 
             this.EventNavigationBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.EventNavigationBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(146)))), ((int)(((byte)(60)))));
+            this.EventNavigationBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(88)))), ((int)(((byte)(180)))));
             this.EventNavigationBtn.Location = new System.Drawing.Point(101, 324);
             this.EventNavigationBtn.Name = "EventNavigationBtn";
             this.EventNavigationBtn.Size = new System.Drawing.Size(236, 81);
@@ -124,5 +138,6 @@
         private Button CalendarNavigationBtn;
         private Button EventNavigationBtn;
         private Button NoteBNavigationBtn;
+        private Button FolderNavigationFormBtn;
     }
 }
