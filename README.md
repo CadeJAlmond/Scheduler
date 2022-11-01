@@ -1,8 +1,13 @@
-# Scheduler
-  This app is an organizational tool consisting of a event manager, calendar, and note pad. This tool is too help me 
+## Scheduler
+  This app is an organizational tool consisting of a Event, Calendar, Folder manager and a Note pad. This tool is too help me 
 track bugs in my other software endeavors, and daily life.
+## Pictures
+![SchedulerEvents](https://user-images.githubusercontent.com/97570649/199157431-0187160b-14a8-4d1b-8853-a683c36cf6a3.png)
+![SchedulerCalendar](https://user-images.githubusercontent.com/97570649/199157446-32914d49-e51b-4041-867e-559206e734f7.png)
+![SchedulerNotes](https://user-images.githubusercontent.com/97570649/199157459-1d1c2bc5-4bb2-47c9-ac9f-6d28e229fc3f.png)
+![SchedulerFolders](https://user-images.githubusercontent.com/97570649/199157462-3d3698ef-6ad1-4f41-9967-a3072009cf50.png)
 
-# OVERVIEW
+## OVERVIEW
   Scheduler is an event tracking and time planning program which strives to help users manage their yearly, monthly, 
 and weekly management. Scheduler helps store, and display information that the user has communicated with the 
 program with the aid of SQL. This program allows users to construct events, upcoming events are displayed on the 
@@ -10,9 +15,9 @@ home screen and shown on the calendar page. Scheduler also allows users to write
 provide additional information related to an event, or subject. Scheduler has an amazing, sleek and intuitive
 design with powerful backend support.
 
-# DATABASE ARCHITECTURE
+## DATABASE ARCHITECTURE
 
-# TOPICS
+## TOPICS
   - C# Form Design and Programming
   - Data Structures
   - Algorithms
@@ -22,21 +27,22 @@ design with powerful backend support.
   - Multi-Threading
   - OOP
 
-# TIME EXPENDITURES
+## TIME EXPENDITURES
   - Calendar App  - 7 Hours
   - EventList         - 4 Hours
-  - Notebook        - 3 Hours 
-  - SQLHandle     - 5 Hours 
+  - Notebook        - 3 Hours
+  - Folder - 5 Hours
+  - SQLHandle     - 9 Hours 
   - ColorHandle    - 1.5 Hours
 
-# PLANS
-  Scheduler has seen many significant changes through its early life. Upcoming ideas consist of adding a “Folder” 
-system, which would allow users to compile a multitude of events, into a folder. Correspondingly, these events 
-may be connected with a note thus when an event is selected from a folder the contents of the connected note will 
-be displayed. This should allow the user a next level of organization in regards to planning events, and handling
-notes.
+## PLANS
+  Scheduler has seen many significant changes through its early life. Upcoming ideas include adding the ability
+to have the user define a sequence of characters. If these sequences are followed by a setence, it will transform
+that text to have a different text size, letter-spacing and text-color in the Notes. Similarly, the user will be 
+able to sort events in the Calendar by their folders. And last idea being developed is having the forms 
+auto-complete or provide events or note data in a seperate data-field. 
 
-# WHAT I'VE LEARNED
+## WHAT I'VE LEARNED
   Scheduler was a fun program to design and create. Even though C++ basic form design is extremely limited, and 
 dated, I managed to create an appealing looking app. The Calendar form helped me gain a better understanding of
 how the time API can be utilized in a simple, and efficient manner to create a powerful Calendar program. I also 
